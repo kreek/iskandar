@@ -18,16 +18,27 @@ import java.util.HashMap;
  */
 public class CommandMap implements ICommandMap {
 
-    protected IEventDispatcher _eventDispatcher = EventDispatcher.getInstance();;
+    protected IEventDispatcher _eventDispatcher;
     protected HashMap<String, ICommand> _commandMap = new HashMap();
     protected HashMap<String, IEvent> _eventTypeMap = new HashMap();
 
-    
+    @Override
+    public void setEventDispatcher(IEventDispatcher eventDispatcher) {
+        this._eventDispatcher = eventDispatcher;
+    }
 
+    @Override
+    public IEventDispatcher getEventDispatcher() {
+        return _eventDispatcher;
+    }
+
+
+
+    
     public CommandMap() {
         
     }
-
+    @Override
     public void mapEvent(String eventType, ICommand commandClass, IEvent eventClass) throws IskandarException {
 
 
@@ -48,6 +59,7 @@ public class CommandMap implements ICommandMap {
         }
 
         _eventDispatcher.addEventListener(eventType, new IEventListener() {
+            @Override
             public void handleEvent(IEvent e) {
                 routeEventToCommand(e, _commandMap.get(e.getEventType()));
             }
@@ -55,6 +67,7 @@ public class CommandMap implements ICommandMap {
 
     }
 
+    @Override
     public void unmapEvent(String eventType, ICommand commandClass, IEvent eventClass) throws IskandarException {
 
         if (_commandMap.get(eventType) != null) {
@@ -75,6 +88,7 @@ public class CommandMap implements ICommandMap {
 
     }
 
+    @Override
     public boolean hasEventCommand(String eventType, ICommand commandClass, IEvent eventClass) {
 
         if (_commandMap.get(eventType) != null) {

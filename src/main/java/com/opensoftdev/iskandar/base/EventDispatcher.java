@@ -9,58 +9,51 @@ package com.opensoftdev.iskandar.base;
 import com.opensoftdev.iskandar.core.IEventDispatcher;
 import com.opensoftdev.iskandar.core.IEvent;
 import com.opensoftdev.iskandar.core.IEventListener;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.Set;
 
 
 /**
- *
- * @author alastair
+ *  
+ * 
  */
 public class EventDispatcher implements IEventDispatcher {
 
     private HashMap<String, IEventListener> _listeners = new HashMap();
-    private static EventDispatcher instance;
 
-    private boolean _unitTestEnabled = false;
+    private boolean _unitTesting = false;
 
-    public void setUnitTestEnabled(boolean unitTestEnabled) {
-        this._unitTestEnabled = unitTestEnabled;
+    @Override
+    public void setUnitTesting(boolean _unitTesting) {
+        this._unitTesting = _unitTesting;
     }
-
-
-
-    private EventDispatcher() {
+   
+    public EventDispatcher() {
         
     }
 
-    public static EventDispatcher getInstance() {
-        if(instance==null){
-            
-            instance = new EventDispatcher();
-        }
-
-        return instance;
-    }
-    
+   
+    @Override
     public void addEventListener( String type, IEventListener el) {
 
         this._listeners.put(type, el);
     }
 
+    @Override
     public void removeEventListener(String type){
 
         this._listeners.remove(type);
     }
 
+    @Override
     public void dispatchEvent(IEvent e) throws IskandarException{
 
-        if(this._unitTestEnabled){
+        //throw exception fo unit test framework to do assets with
+        if(this._unitTesting){
+
             throw new IskandarException(e.getEventType());
         }
 
-        Collection<IEventListener> c = _listeners.values();
         Set<String> keys = _listeners.keySet();
 
         for( String key : keys ){
