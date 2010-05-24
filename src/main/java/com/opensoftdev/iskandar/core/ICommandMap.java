@@ -1,21 +1,15 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package com.opensoftdev.iskandar.core;
 
+import com.google.inject.ImplementedBy;
+import com.opensoftdev.iskandar.base.CommandMap;
 import com.opensoftdev.iskandar.base.IskandarException;
 
-/**
- *
- * @author alastair
- */
+@ImplementedBy(CommandMap.class)
 public interface ICommandMap {
 
-    void setEventDispatcher(IEventDispatcher eventDispatcher);
     public IEventDispatcher getEventDispatcher();
-    void mapEvent(String eventType, ICommand commandClass, IEvent eventClass) throws IskandarException;
-    void unmapEvent(String eventType, ICommand commandClass, IEvent eventClass) throws IskandarException;
-    boolean hasEventCommand(String eventType, ICommand commandClass, IEvent eventClass);
+    void mapEvent(String eventType, ICommand commandClass, Class eventClass) throws IskandarException;
+    void unmapEvent(String eventType, ICommand commandClass, Class eventClass) throws IskandarException;
+    boolean hasEventCommand(String eventType, ICommand commandClass, Class eventClass);
+
 }

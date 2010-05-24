@@ -1,26 +1,18 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package com.opensoftdev.iskandar.base;
 
-/**
- *
- * @author alastair
- */
-public abstract class IskandarEvent {
+import com.opensoftdev.iskandar.core.IIskandarEvent;
 
+public abstract class IskandarEvent implements IIskandarEvent {
 
     private String _eventType;
 
+    @Override
     public String getEventType() {
         return _eventType;
     }
 
     public IskandarEvent(String type){
-        
         this._eventType = type;
     }
-
+    
 }

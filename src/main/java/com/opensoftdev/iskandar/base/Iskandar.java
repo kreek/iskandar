@@ -1,91 +1,61 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package com.opensoftdev.iskandar.base;
 
+import com.google.inject.Guice;
+import com.google.inject.Inject;
+import com.google.inject.Injector;
+import com.google.inject.Singleton;
 import com.opensoftdev.iskandar.core.ICommand;
 import com.opensoftdev.iskandar.core.ICommandMap;
-import com.opensoftdev.iskandar.core.IEvent;
+import com.opensoftdev.iskandar.core.IIskandarEvent;
 import com.opensoftdev.iskandar.core.IEventDispatcher;
+import com.opensoftdev.iskandar.core.IIskandar;
 
+@Singleton
+public class Iskandar implements IIskandar {
 
-/**
- *
- * @author arash
- *
- * 
- */
-public class Iskandar{
+    private final ICommandMap _commandMap;
+    private final IEventDispatcher _eventDispatcher;
 
-    private static Iskandar instance = null;
-    private ICommandMap _commandMap;
-    private IEventDispatcher _eventDispatcher;
-
+    @Override
     public ICommandMap getCommandMap() {
         return _commandMap;
     }
 
+    @Override
     public IEventDispatcher getEventDispatcher() {
         return _eventDispatcher;
     }
 
-    
+    @Override
     public void setUnitTesting(boolean unitTesting) throws IskandarException {
-
         this._eventDispatcher.setUnitTesting(unitTesting);
     }
-    
-    private Iskandar() {
 
-
+    @Inject
+    public Iskandar() {
+        Injector injector = Guice.createInjector();
+        this._commandMap = injector.getInstance(ICommandMap.class);
+        this._eventDispatcher = injector.getInstance(IEventDispatcher.class);
     }
 
-    public static Iskandar getInstance(){
-
-        if(instance == null){
-
-            instance = new Iskandar();
-
-        }
-
-        return instance;
-    }
-
-    public void init(){
-
-        this._commandMap = new CommandMap();
-        this._eventDispatcher = new EventDispatcher();
-
-        this._commandMap.setEventDispatcher(this._eventDispatcher);
-
-    }   
-  
-    public void dispatchEvent(IEvent e) throws IskandarException {
-
-
+    @Override
+    public void dispatchEvent(IIskandarEvent e) throws IskandarException {
         this._eventDispatcher.dispatchEvent(e);
     }
 
-
-    public boolean hasEventCommand(String eventType, ICommand commandClass, IEvent eventClass) {
-
-       return this._commandMap.hasEventCommand(eventType, commandClass, eventClass);
+    @Override
+    public boolean hasEventCommand(String eventType, ICommand commandClass, Class eventClass) {
+        return this._commandMap.hasEventCommand(eventType, commandClass, eventClass);
     }
 
-
-    public void mapEvent(String eventType, ICommand commandClass, IEvent eventClass) throws IskandarException {
-
+    @Override
+    public void mapEvent(String eventType, ICommand commandClass, Class eventClass) throws IskandarException {
         this._commandMap.mapEvent(eventType, commandClass, eventClass);
     }
 
-
-    public void unmapEvent(String eventType, ICommand commandClass, IEvent eventClass) throws IskandarException {
-
+    @Override
+    public void unmapEvent(String eventType, ICommand commandClass, Class eventClass) throws IskandarException {
         this._commandMap.unmapEvent(eventType, commandClass, eventClass);
     }
-
-
 
 }

@@ -10,5 +10,5 @@ package com.opensoftdev.iskandar.core;
  * @author alastair
  */
 public interface ICommand {
-    public void execute(IEvent e);
+    public void execute(IIskandarEvent e);
 }
