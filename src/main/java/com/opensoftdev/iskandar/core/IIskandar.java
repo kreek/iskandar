@@ -10,9 +10,9 @@ public interface IIskandar {
     ICommandMap getCommandMap();
     IEventDispatcher getEventDispatcher();
     void setUnitTesting(boolean unitTesting) throws IskandarException;
-    void dispatchEvent(IIskandarEvent e) throws IskandarException;
-    boolean hasEventCommand(String eventType, ICommand commandClass, Class eventClass);
-    void mapEvent(String eventType, ICommand commandClass, Class eventClass) throws IskandarException;
-    void unmapEvent(String eventType, ICommand commandClass, Class eventClass) throws IskandarException;
+    void dispatchEvent(IEvent e) throws IskandarException;
+    boolean hasEventCommand(String eventType, Class commandClass, Class eventClass);
+    void mapEvent(String eventType, Class commandClass, Class eventClass) throws IskandarException;
+    void unmapEvent(String eventType, Class commandClass, Class  eventClass) throws IskandarException;
 
 }

@@ -1,8 +1,8 @@
 package com.opensoftdev.iskandar.base;
 
-import com.opensoftdev.iskandar.core.IIskandarEvent;
+import com.opensoftdev.iskandar.core.IEvent;
 
-public abstract class IskandarEvent implements IIskandarEvent {
+public abstract class Event implements IEvent {
 
     private String _eventType;
 
@@ -11,8 +11,7 @@ public abstract class IskandarEvent implements IIskandarEvent {
         return _eventType;
     }
 
-    public IskandarEvent(String type){
+    public Event(String type) {
         this._eventType = type;
     }
-    
 }

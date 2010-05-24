@@ -6,16 +6,18 @@ import com.google.inject.Injector;
 import com.google.inject.Singleton;
 import com.opensoftdev.iskandar.core.ICommand;
 import com.opensoftdev.iskandar.core.ICommandMap;
-import com.opensoftdev.iskandar.core.IIskandarEvent;
+import com.opensoftdev.iskandar.core.IEvent;
 import com.opensoftdev.iskandar.core.IEventDispatcher;
 import com.opensoftdev.iskandar.core.IEventListener;
 import java.util.HashMap;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 @Singleton
 public class CommandMap implements ICommandMap {
 
     private final IEventDispatcher _eventDispatcher;
-    protected HashMap<String, ICommand> _commandMap = new HashMap();
+    protected HashMap<String, Class> _commandMap = new HashMap();
     protected HashMap<String, Class> _eventTypeMap = new HashMap();
 
     @Override
@@ -24,13 +26,12 @@ public class CommandMap implements ICommandMap {
     }
 
     @Inject
-    public CommandMap() {
-        Injector injector = Guice.createInjector();
-        this._eventDispatcher = injector.getInstance(IEventDispatcher.class);
+    public CommandMap(IEventDispatcher eventDispatcher) {
+        this._eventDispatcher = eventDispatcher;
     }
 
     @Override
-    public void mapEvent(String eventType, ICommand commandClass, Class eventClass) throws IskandarException {
+    public void mapEvent(String eventType, Class commandClass, Class eventClass) throws IskandarException {
 
         if (_commandMap.get(eventType) == null) {
             _commandMap.put(eventType, commandClass);
@@ -47,14 +48,18 @@ public class CommandMap implements ICommandMap {
         _eventDispatcher.addEventListener(eventType, new IEventListener() {
 
             @Override
-            public void handleEvent(IIskandarEvent e) {
-                routeEventToCommand(e, _commandMap.get(e.getEventType()), _eventTypeMap.get(e.getEventType()));
+            public void handleEvent(IEvent e) {
+                try {
+                    routeEventToCommand(e, _commandMap.get(e.getEventType()), _eventTypeMap.get(e.getEventType()));
+                } catch (InstantiationException ex) {
+                    Logger.getLogger(CommandMap.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
     }
 
     @Override
-    public void unmapEvent(String eventType, ICommand commandClass, Class eventClass) throws IskandarException {
+    public void unmapEvent(String eventType, Class commandClass, Class eventClass) throws IskandarException {
 
         if (_commandMap.get(eventType) != null) {
             _commandMap.remove(eventType);
@@ -70,7 +75,7 @@ public class CommandMap implements ICommandMap {
     }
 
     @Override
-    public boolean hasEventCommand(String eventType, ICommand commandClass, Class eventClass) {
+    public boolean hasEventCommand(String eventType, Class commandClass, Class eventClass) {
         
         if (_commandMap.get(eventType) != null) {
             return true;
@@ -79,9 +84,15 @@ public class CommandMap implements ICommandMap {
         }
     }
 
-    protected void routeEventToCommand(IIskandarEvent e, ICommand commandClass, Class eventClass) {
+    protected void routeEventToCommand(IEvent e, Class commandClass, Class eventClass) throws InstantiationException {
 
         if (e.getClass() != eventClass) return;
-        commandClass.execute(e);
+        ICommand command;
+        try {
+            command = (ICommand) commandClass.newInstance();
+            command.execute(e);
+        } catch (IllegalAccessException ex) {
+            Logger.getLogger(CommandMap.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 }

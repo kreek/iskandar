@@ -4,6 +4,6 @@ import java.util.EventListener;
 
 public interface IEventListener extends EventListener{
 
-    void handleEvent(IIskandarEvent e);
+    void handleEvent(IEvent e);
 
 }

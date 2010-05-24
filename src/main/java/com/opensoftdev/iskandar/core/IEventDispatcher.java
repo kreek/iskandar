@@ -10,6 +10,6 @@ public interface IEventDispatcher {
     void setUnitTesting(boolean unitTesting);
     void addEventListener(String type, IEventListener e);
     void removeEventListener(String type);
-    void dispatchEvent(IIskandarEvent e) throws IskandarException;
+    void dispatchEvent(IEvent e) throws IskandarException;
     
 }

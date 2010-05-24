@@ -6,7 +6,7 @@ import com.google.inject.Injector;
 import com.google.inject.Singleton;
 import com.opensoftdev.iskandar.core.ICommand;
 import com.opensoftdev.iskandar.core.ICommandMap;
-import com.opensoftdev.iskandar.core.IIskandarEvent;
+import com.opensoftdev.iskandar.core.IEvent;
 import com.opensoftdev.iskandar.core.IEventDispatcher;
 import com.opensoftdev.iskandar.core.IIskandar;
 
@@ -36,25 +36,26 @@ public class Iskandar implements IIskandar {
         Injector injector = Guice.createInjector();
         this._commandMap = injector.getInstance(ICommandMap.class);
         this._eventDispatcher = injector.getInstance(IEventDispatcher.class);
+        System.out.println("funk");
     }
 
     @Override
-    public void dispatchEvent(IIskandarEvent e) throws IskandarException {
+    public void dispatchEvent(IEvent e) throws IskandarException {
         this._eventDispatcher.dispatchEvent(e);
     }
 
     @Override
-    public boolean hasEventCommand(String eventType, ICommand commandClass, Class eventClass) {
+    public boolean hasEventCommand(String eventType, Class commandClass, Class eventClass) {
         return this._commandMap.hasEventCommand(eventType, commandClass, eventClass);
     }
 
     @Override
-    public void mapEvent(String eventType, ICommand commandClass, Class eventClass) throws IskandarException {
+    public void mapEvent(String eventType, Class commandClass, Class eventClass) throws IskandarException {
         this._commandMap.mapEvent(eventType, commandClass, eventClass);
     }
 
     @Override
-    public void unmapEvent(String eventType, ICommand commandClass, Class eventClass) throws IskandarException {
+    public void unmapEvent(String eventType, Class commandClass, Class eventClass) throws IskandarException {
         this._commandMap.unmapEvent(eventType, commandClass, eventClass);
     }
 
