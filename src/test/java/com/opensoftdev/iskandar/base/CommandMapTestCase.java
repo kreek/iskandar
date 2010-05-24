@@ -19,7 +19,7 @@ import junit.framework.TestCase;
  */
 public class CommandMapTestCase extends TestCase implements ICommandTestCase {
 
-    private ICommandMap commandMap;
+    private ICommandMap _commandMap;
     private boolean _commandExecuted;
 
     @Override
@@ -30,13 +30,13 @@ public class CommandMapTestCase extends TestCase implements ICommandTestCase {
     @Override
     protected void setUp() {
         Injector injector = Guice.createInjector();
-        commandMap = injector.getInstance(ICommandMap.class);
+        _commandMap = injector.getInstance(ICommandMap.class);
         _commandExecuted = false;
     }
 
     public void test_commandExecutes() throws IskandarException {
-        commandMap.mapEvent(TestEvent.TEST_ONE, TestCommand.class, TestEvent.class);
-        commandMap.getEventDispatcher().dispatchEvent(new TestEvent(TestEvent.TEST_ONE, this));
+        _commandMap.mapEvent(TestEvent.TEST_ONE, TestCommand.class, TestEvent.class);
+        _commandMap.getEventDispatcher().dispatchEvent(new TestEvent(TestEvent.TEST_ONE, this));
         assertEquals(true, _commandExecuted);
     }
 
