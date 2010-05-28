@@ -7,8 +7,6 @@ import com.opensoftdev.iskandar.base.IskandarException;
 @ImplementedBy(Iskandar.class)
 public interface IIskandar {
 
-    ICommandMap getCommandMap();
-    IEventDispatcher getEventDispatcher();
     void setUnitTesting(boolean unitTesting) throws IskandarException;
     void dispatchEvent(IEvent e) throws IskandarException;
     boolean hasEventCommand(String eventType, Class commandClass, Class eventClass);

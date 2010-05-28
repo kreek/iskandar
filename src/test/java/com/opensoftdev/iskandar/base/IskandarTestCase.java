@@ -1,7 +1,11 @@
 package com.opensoftdev.iskandar.base;
 
 import com.google.inject.Guice;
+import com.google.inject.Inject;
 import com.google.inject.Injector;
+import com.opensoftdev.iskandar.base.support.ITestObject;
+import com.opensoftdev.iskandar.base.support.TestCommand;
+import com.opensoftdev.iskandar.base.support.TestEvent;
 import com.opensoftdev.iskandar.core.IIskandar;
 import junit.framework.TestCase;
 
@@ -12,12 +16,18 @@ import junit.framework.TestCase;
  */
 public class IskandarTestCase extends TestCase {
 
-    private IIskandar iskandar;
+    private IIskandar _iskandar;
+    private ITestObject _testObject;
+    
+    public IskandarTestCase() {
+
+    }
 
     @Override
     protected void setUp() {
         Injector injector = Guice.createInjector();
-        iskandar = injector.getInstance(IIskandar.class);
+        _iskandar = injector.getInstance(IIskandar.class);
+        _testObject = injector.getInstance(ITestObject.class);
     }
     
     public IskandarTestCase(String name) {
@@ -25,19 +35,25 @@ public class IskandarTestCase extends TestCase {
     }
 
     public void test_getInstanceNotNull() {
-        assertNotNull(iskandar);
+        assertNotNull(_iskandar);
     }
 
     public void test_commandMapNotNull() {
-        assertNotNull(iskandar.getCommandMap());
+        assertNotNull(_iskandar.getCommandMap());
     }
 
     public void test_eventDipatcherNotNull() {
-        assertNotNull(iskandar.getEventDispatcher());
+        assertNotNull(_iskandar.getEventDispatcher());
     }
 
     public void test_eventDipatcherInCommandMapNotNull() {
-        assertNotNull(iskandar.getCommandMap().getEventDispatcher());
+        assertNotNull(_iskandar.getCommandMap().getEventDispatcher());
+    }
+
+    public void test_commandExecutes() throws IskandarException {
+        _iskandar.mapEvent(TestEvent.TEST_ONE, TestCommand.class, TestEvent.class);
+        _iskandar.dispatchEvent(new TestEvent(TestEvent.TEST_ONE, _testObject));
+        assertEquals(true, _testObject.isCommandExecuted());
     }
 
 }

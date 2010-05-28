@@ -5,21 +5,29 @@
 
 package com.opensoftdev.iskandar.base.support;
 
-import com.opensoftdev.iskandar.base.IskandarTestCase;
+import com.google.inject.Inject;
+import com.google.inject.Injector;
+import com.opensoftdev.iskandar.base.Command;
 import com.opensoftdev.iskandar.core.ICommand;
-import com.opensoftdev.iskandar.core.IEvent;
 
 /**
  *
  * @author alastair
  */
-public class TestCommand implements ICommand {
+public class TestCommand extends Command implements ICommand {
+
+    private TestEvent _testEvent;
+
+    @Inject
+    public TestCommand(Injector injector) {
+        super(injector);
+    }
 
     @Override
-    public void execute(IEvent e) {
-        TestEvent event = (TestEvent) e;
-        ICommandTestCase commandTestCase = (ICommandTestCase) event.getCommandTestCase();
-        commandTestCase.setCommandExecuted(true);
+    public void execute() {
+        _testEvent = this._injector.getInstance(TestEvent.class);
+        _testEvent.getTestObject().setCommandExecuted(true);
+        System.out.println("funk");
     }
 
 }

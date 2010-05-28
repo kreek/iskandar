@@ -5,10 +5,10 @@
 
 package com.opensoftdev.iskandar.core;
 
-/**
- *
- * @author alastair
- */
+import com.google.inject.ImplementedBy;
+import com.opensoftdev.iskandar.base.Command;
+
+@ImplementedBy(Command.class)
 public interface ICommand {
-    public void execute(IEvent e);
+    void execute();
 }

@@ -4,32 +4,22 @@
  */
 package com.opensoftdev.iskandar.base.support;
 
-import com.opensoftdev.iskandar.base.IskandarTestCase;
-import com.opensoftdev.iskandar.core.IEvent;
+import com.opensoftdev.iskandar.base.Event;
 
-/**
- *
- * @author alastair
- */
-public class TestEvent implements IEvent {
+public class TestEvent extends Event {
 
     public static final String TEST_ONE = "testOne";
     public static final String TEST_TWO = "testTwo";
     
     private String _eventType;
-    private ICommandTestCase _commandTestCase;
+    private final ITestObject _testObject;
 
-    @Override
-    public String getEventType() {
-        return this._eventType;
+    public ITestObject getTestObject() {
+        return _testObject;
     }
 
-    public ICommandTestCase getCommandTestCase() {
-        return _commandTestCase;
-    }
-
-    public TestEvent(String eventType, ICommandTestCase commandTestCase) {
-        this._eventType = eventType;
-        this._commandTestCase = commandTestCase;
+    public TestEvent(String eventType, ITestObject testObject) {
+        super(eventType);
+        this._testObject = testObject;
     }
 }

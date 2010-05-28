@@ -1,5 +1,6 @@
 package com.opensoftdev.iskandar.base;
 
+import com.google.inject.Inject;
 import com.opensoftdev.iskandar.core.IEvent;
 
 public abstract class Event implements IEvent {
@@ -11,6 +12,7 @@ public abstract class Event implements IEvent {
         return _eventType;
     }
 
+    @Inject
     public Event(String type) {
         this._eventType = type;
     }

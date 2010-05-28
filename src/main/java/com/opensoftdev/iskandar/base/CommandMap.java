@@ -16,6 +16,7 @@ import java.util.logging.Logger;
 @Singleton
 public class CommandMap implements ICommandMap {
 
+    private final Injector _injector;
     private final IEventDispatcher _eventDispatcher;
     protected HashMap<String, Class> _commandMap = new HashMap();
     protected HashMap<String, Class> _eventTypeMap = new HashMap();
@@ -26,7 +27,8 @@ public class CommandMap implements ICommandMap {
     }
 
     @Inject
-    public CommandMap(IEventDispatcher eventDispatcher) {
+    public CommandMap(Injector injector, IEventDispatcher eventDispatcher) {
+        this._injector = injector;
         this._eventDispatcher = eventDispatcher;
     }
 
@@ -49,11 +51,7 @@ public class CommandMap implements ICommandMap {
 
             @Override
             public void handleEvent(IEvent e) {
-                try {
-                    routeEventToCommand(e, _commandMap.get(e.getEventType()), _eventTypeMap.get(e.getEventType()));
-                } catch (InstantiationException ex) {
-                    Logger.getLogger(CommandMap.class.getName()).log(Level.SEVERE, null, ex);
-                }
+                routeEventToCommand(e, _commandMap.get(e.getEventType()), _eventTypeMap.get(e.getEventType()));
             }
         });
     }
@@ -76,23 +74,22 @@ public class CommandMap implements ICommandMap {
 
     @Override
     public boolean hasEventCommand(String eventType, Class commandClass, Class eventClass) {
-        
+
         if (_commandMap.get(eventType) != null) {
             return true;
         } else {
             return false;
         }
     }
+    
+    protected void routeEventToCommand(IEvent e, Class commandClass, Class eventClass) {
 
-    protected void routeEventToCommand(IEvent e, Class commandClass, Class eventClass) throws InstantiationException {
-
-        if (e.getClass() != eventClass) return;
-        ICommand command;
-        try {
-            command = (ICommand) commandClass.newInstance();
-            command.execute(e);
-        } catch (IllegalAccessException ex) {
-            Logger.getLogger(CommandMap.class.getName()).log(Level.SEVERE, null, ex);
+        if (e.getClass() != eventClass) {
+            return;
         }
+        
+        ICommand command = (ICommand) _injector.getInstance(commandClass);
+        command.execute();
+
     }
 }
