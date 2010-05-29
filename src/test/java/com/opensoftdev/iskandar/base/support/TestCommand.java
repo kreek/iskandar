@@ -6,9 +6,10 @@
 package com.opensoftdev.iskandar.base.support;
 
 import com.google.inject.Inject;
-import com.google.inject.Injector;
+import com.google.inject.assistedinject.Assisted;
 import com.opensoftdev.iskandar.base.Command;
 import com.opensoftdev.iskandar.core.ICommand;
+import com.opensoftdev.iskandar.core.IEvent;
 
 /**
  *
@@ -16,18 +17,18 @@ import com.opensoftdev.iskandar.core.ICommand;
  */
 public class TestCommand extends Command implements ICommand {
 
-    private TestEvent _testEvent;
+    @Assisted
+    private final TestEvent _testEvent;
 
     @Inject
-    public TestCommand(Injector injector) {
-        super(injector);
+    public TestCommand(@Assisted IEvent e) {
+        super();
+        this._testEvent = (TestEvent)e;
     }
 
     @Override
     public void execute() {
-        _testEvent = this._injector.getInstance(TestEvent.class);
-        _testEvent.getTestObject().setCommandExecuted(true);
-        System.out.println("funk");
+        this._testEvent.getTestObject().setCommandExecuted(true);
     }
 
 }

@@ -19,9 +19,8 @@ public class Iskandar implements IIskandar {
     //
     ////////////////////////////////////////////////////////////////////////////
 
-    private ICommandMap _commandMap;
     private IEventDispatcher _eventDispatcher;
-    private Injector _injector;
+    private ICommandMap _commandMap;
 
     ////////////////////////////////////////////////////////////////////////////
     //
@@ -29,8 +28,10 @@ public class Iskandar implements IIskandar {
     //
     ////////////////////////////////////////////////////////////////////////////
 
-    @Inject
     public Iskandar() {
+        Injector injector = Guice.createInjector(new IskandarModule());
+        this._eventDispatcher = injector.getInstance(IEventDispatcher.class);
+        this._commandMap = injector.getInstance(ICommandMap.class);
         System.out.println("funk");
     }
     
@@ -40,39 +41,32 @@ public class Iskandar implements IIskandar {
     //
     ////////////////////////////////////////////////////////////////////////////
 
-    @Override
-    public void setUnitTesting(boolean unitTesting) throws IskandarException {
-        this._eventDispatcher.setUnitTesting(unitTesting);
-    }
-
-    public void startup(AbstractModule[] args) {
-        this._injector = Guice.createInjector(args);
-        this._injector.injectMembers(this);
+    public void startup() {
+        
     }
 
     @Override
-    public void dispatchEvent(IEvent e) throws IskandarException {
+    public void dispatchEvent(Event e) throws IskandarException {
         this._eventDispatcher.dispatchEvent(e);
     }
 
     @Override
-    public boolean hasEventCommand(
-            String eventType, Class commandClass, Class eventClass) {
-        return this._commandMap.hasEventCommand(
-                eventType, commandClass, eventClass);
-    }
-
-    @Override
-    public void mapEvent(String eventType, Class commandClass, Class eventClass)
-            throws IskandarException {
+    public void mapEvent(String eventType, Class commandClass, Class eventClass) throws IskandarException {
         this._commandMap.mapEvent(eventType, commandClass, eventClass);
     }
 
     @Override
-    public void unmapEvent(
-            String eventType, Class commandClass, Class eventClass)
-            throws IskandarException {
+    public void unmapEvent(String eventType, Class commandClass, Class eventClass) throws IskandarException {
         this._commandMap.unmapEvent(eventType, commandClass, eventClass);
     }
 
+    @Override
+    public boolean hasEventCommand(String eventType, Class commandClass, Class eventClass) {
+        return this._commandMap.hasEventCommand(eventType, commandClass, eventClass);
+    }
+
+    @Override
+    public void setUnitTesting(boolean unitTesting) throws IskandarException {
+        this._eventDispatcher.setUnitTesting(unitTesting);
+    }
 }

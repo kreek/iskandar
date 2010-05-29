@@ -35,7 +35,7 @@ public class EventDispatcher implements IEventDispatcher {
     }
 
     @Override
-    public void dispatchEvent(IEvent e) throws IskandarException {
+    public void dispatchEvent(Event e) throws IskandarException {
 
         // throw exception for unit test framework to do assets with
         if (this._unitTesting) {

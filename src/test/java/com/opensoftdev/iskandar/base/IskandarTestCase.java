@@ -6,6 +6,7 @@ import com.google.inject.Injector;
 import com.opensoftdev.iskandar.base.support.ITestObject;
 import com.opensoftdev.iskandar.base.support.TestCommand;
 import com.opensoftdev.iskandar.base.support.TestEvent;
+import com.opensoftdev.iskandar.base.support.TestObject;
 import com.opensoftdev.iskandar.core.IIskandar;
 import junit.framework.TestCase;
 
@@ -27,7 +28,6 @@ public class IskandarTestCase extends TestCase {
     protected void setUp() {
         Injector injector = Guice.createInjector();
         _iskandar = injector.getInstance(IIskandar.class);
-        _testObject = injector.getInstance(ITestObject.class);
     }
     
     public IskandarTestCase(String name) {
@@ -38,22 +38,25 @@ public class IskandarTestCase extends TestCase {
         assertNotNull(_iskandar);
     }
 
-    public void test_commandMapNotNull() {
-        assertNotNull(_iskandar.getCommandMap());
-    }
-
-    public void test_eventDipatcherNotNull() {
-        assertNotNull(_iskandar.getEventDispatcher());
-    }
-
-    public void test_eventDipatcherInCommandMapNotNull() {
-        assertNotNull(_iskandar.getCommandMap().getEventDispatcher());
-    }
+//    public void test_commandMapNotNull() {
+//        assertNotNull(_iskandar.getCommandMap());
+//    }
+//
+//    public void test_eventDipatcherNotNull() {
+//        assertNotNull(_iskandar.getEventDispatcher());
+//    }
+//
+//    public void test_eventDipatcherInCommandMapNotNull() {
+//        assertNotNull(_iskandar.getCommandMap().getEventDispatcher());
+//    }
 
     public void test_commandExecutes() throws IskandarException {
+
         _iskandar.mapEvent(TestEvent.TEST_ONE, TestCommand.class, TestEvent.class);
-        _iskandar.dispatchEvent(new TestEvent(TestEvent.TEST_ONE, _testObject));
-        assertEquals(true, _testObject.isCommandExecuted());
+        TestObject testObject = new TestObject();
+        _iskandar.dispatchEvent(new TestEvent(TestEvent.TEST_ONE, testObject));
+        assertEquals(true, testObject.isCommandExecuted());
+        System.out.println("done");
     }
 
 }

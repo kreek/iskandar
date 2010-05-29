@@ -1,10 +1,10 @@
 package com.opensoftdev.iskandar.base;
 
-import com.google.inject.Guice;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.Singleton;
 import com.opensoftdev.iskandar.core.ICommand;
+import com.opensoftdev.iskandar.core.ICommandFactory;
 import com.opensoftdev.iskandar.core.ICommandMap;
 import com.opensoftdev.iskandar.core.IEvent;
 import com.opensoftdev.iskandar.core.IEventDispatcher;
@@ -16,21 +16,41 @@ import java.util.logging.Logger;
 @Singleton
 public class CommandMap implements ICommandMap {
 
-    private final Injector _injector;
+    ////////////////////////////////////////////////////////////////////////////
+    //
+    // PRIVATE VARIABLES
+    //
+    ////////////////////////////////////////////////////////////////////////////
+
     private final IEventDispatcher _eventDispatcher;
+    private final Injector _injector;
+
+    ////////////////////////////////////////////////////////////////////////////
+    //
+    // PROTECTED VARIABLES
+    //
+    ////////////////////////////////////////////////////////////////////////////
+
     protected HashMap<String, Class> _commandMap = new HashMap();
     protected HashMap<String, Class> _eventTypeMap = new HashMap();
 
-    @Override
-    public IEventDispatcher getEventDispatcher() {
-        return _eventDispatcher;
-    }
+    ////////////////////////////////////////////////////////////////////////////
+    //
+    // CONSTRUCTOR
+    //
+    ////////////////////////////////////////////////////////////////////////////
 
     @Inject
-    public CommandMap(Injector injector, IEventDispatcher eventDispatcher) {
-        this._injector = injector;
+    public CommandMap(IEventDispatcher eventDispatcher, Injector injector) {
         this._eventDispatcher = eventDispatcher;
+        this._injector = injector;
     }
+
+    ////////////////////////////////////////////////////////////////////////////
+    //
+    // PUBLIC METHODS
+    //
+    ////////////////////////////////////////////////////////////////////////////
 
     @Override
     public void mapEvent(String eventType, Class commandClass, Class eventClass) throws IskandarException {
@@ -50,8 +70,12 @@ public class CommandMap implements ICommandMap {
         _eventDispatcher.addEventListener(eventType, new IEventListener() {
 
             @Override
-            public void handleEvent(IEvent e) {
-                routeEventToCommand(e, _commandMap.get(e.getEventType()), _eventTypeMap.get(e.getEventType()));
+            public void handleEvent(Event e) {
+                try {
+                    routeEventToCommand(e, _commandMap.get(e.getEventType()), _eventTypeMap.get(e.getEventType()));
+                } catch (InstantiationException ex) {
+                    Logger.getLogger(CommandMap.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
     }
@@ -81,15 +105,23 @@ public class CommandMap implements ICommandMap {
             return false;
         }
     }
-    
-    protected void routeEventToCommand(IEvent e, Class commandClass, Class eventClass) {
+
+    ////////////////////////////////////////////////////////////////////////////
+    //
+    // PROTECTED METHODS
+    //
+    ////////////////////////////////////////////////////////////////////////////
+
+    protected void routeEventToCommand(Event e, Class commandClass, Class eventClass) throws InstantiationException {
 
         if (e.getClass() != eventClass) {
             return;
         }
-        
-        ICommand command = (ICommand) _injector.getInstance(commandClass);
-        command.execute();
 
+        CommandModule commandModule = new CommandModule(eventClass, commandClass);
+        Injector commandInjector = this._injector.createChildInjector(commandModule);
+        ICommandFactory commandFactory = commandInjector.getInstance(ICommandFactory.class);
+        ICommand command = commandFactory.create(e);
+        command.execute();
     }
 }

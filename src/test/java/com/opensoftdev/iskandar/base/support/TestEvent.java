@@ -4,21 +4,24 @@
  */
 package com.opensoftdev.iskandar.base.support;
 
+import com.google.inject.Inject;
 import com.opensoftdev.iskandar.base.Event;
+import com.opensoftdev.iskandar.core.IEvent;
 
-public class TestEvent extends Event {
+public class TestEvent extends Event implements IEvent {
 
     public static final String TEST_ONE = "testOne";
     public static final String TEST_TWO = "testTwo";
     
     private String _eventType;
-    private final ITestObject _testObject;
+    private final TestObject _testObject;
 
-    public ITestObject getTestObject() {
+    public TestObject getTestObject() {
         return _testObject;
     }
 
-    public TestEvent(String eventType, ITestObject testObject) {
+    @Inject
+    public TestEvent(String eventType, TestObject testObject) {
         super(eventType);
         this._testObject = testObject;
     }

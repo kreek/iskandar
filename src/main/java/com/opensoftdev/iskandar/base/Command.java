@@ -1,20 +1,23 @@
 package com.opensoftdev.iskandar.base;
 
-import com.google.inject.Inject;
-import com.google.inject.Injector;
+import com.google.inject.BindingAnnotation;
 import com.opensoftdev.iskandar.core.ICommand;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
-public class Command implements ICommand {
+public abstract class Command implements ICommand {
 
-    protected final Injector _injector;
-
-    @Inject
-    public Command(Injector injector) {
-        this._injector = injector;
+    public Command() {
     }
 
     @Override
     public void execute() {
-
     }
+
+    @Retention(RetentionPolicy.RUNTIME)
+    @Target({ElementType.FIELD, ElementType.PARAMETER})
+    @BindingAnnotation
+    public @interface Event {}
 }

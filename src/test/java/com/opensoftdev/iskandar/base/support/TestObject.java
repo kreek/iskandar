@@ -3,7 +3,7 @@ package com.opensoftdev.iskandar.base.support;
 import com.google.inject.Inject;
 
 
-public class TestObject implements ITestObject {
+public class TestObject {
 
     private boolean _commandExecuted = false;
 
@@ -15,7 +15,6 @@ public class TestObject implements ITestObject {
         this._commandExecuted = _commandExecuted;
     }
 
-    @Inject
     public TestObject() {
 
     }

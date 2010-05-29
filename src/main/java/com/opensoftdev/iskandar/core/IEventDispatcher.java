@@ -1,15 +1,13 @@
 package com.opensoftdev.iskandar.core;
 
-import com.google.inject.ImplementedBy;
-import com.opensoftdev.iskandar.base.EventDispatcher;
+import com.opensoftdev.iskandar.base.Event;
 import com.opensoftdev.iskandar.base.IskandarException;
 
-@ImplementedBy(EventDispatcher.class)
 public interface IEventDispatcher {
 
     void setUnitTesting(boolean unitTesting);
     void addEventListener(String type, IEventListener e);
     void removeEventListener(String type);
-    void dispatchEvent(IEvent e) throws IskandarException;
+    void dispatchEvent(Event e) throws IskandarException;
     
 }
