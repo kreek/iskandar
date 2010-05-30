@@ -118,7 +118,7 @@ public class CommandMap implements ICommandMap {
             return;
         }
 
-        CommandModule commandModule = new CommandModule(eventClass, commandClass);
+        CommandModule commandModule = new CommandModule(e, eventClass, commandClass);
         Injector commandInjector = this._injector.createChildInjector(commandModule);
         ICommandFactory commandFactory = commandInjector.getInstance(ICommandFactory.class);
         ICommand command = commandFactory.create(e);

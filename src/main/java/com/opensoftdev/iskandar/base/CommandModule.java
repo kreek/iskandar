@@ -28,7 +28,7 @@ public class CommandModule extends AbstractModule {
 
     @Override
     protected void configure() {
-        bind(_eventClass).to(_event);
+        bind(this._event.getClass()).to(this._eventClass);
         bind(ICommandFactory.class).toProvider(
                 FactoryProvider.newFactory(ICommandFactory.class, _commandClass));
     }
