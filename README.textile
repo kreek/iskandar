@@ -1,6 +1,14 @@
-h2. Bootstrap branch
+h1. Iskandar
 
 Iskandar is a lightweight framework for creating loosely coupled and highly testable applications in Java. It's main feature is an implementation of the command pattern, which allows an application to issue requests to an object without making any assumptions about the request, or the receiving object. Iskandar allows you to write maintainable applications by eshewing hard wiring through Factories and Singletons in favor of test-driven development via dependency injection (DI). Iskandar uses Google Guice as its DI Framework because XML gives us the hebejebes.
+
+h2. Inspiration
+
+Iskandar was originaly written to work with the Vaadin UI toolkit but it can be used for any Java application. Iskandar's developers come from the Flex/Flash world and we are fans of Robotlegs, and before it PureMVC. We wanted a similar work-flow in Java and thus Iskandar was born.
+
+h2. Who is Iskandar?
+
+Iskandar is the Persian version of the name Alexander, as in 'the Great'. Alexander was known to be undefeated in battle and is considered one of the most successful commanders of all time.
 
 h2. License
 
