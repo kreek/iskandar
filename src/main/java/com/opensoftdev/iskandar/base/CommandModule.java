@@ -6,9 +6,6 @@
 package com.opensoftdev.iskandar.base;
 
 import com.google.inject.AbstractModule;
-import com.google.inject.assistedinject.FactoryProvider;
-import com.opensoftdev.iskandar.core.ICommandFactory;
-import com.opensoftdev.iskandar.core.IEvent;
 
 /**
  *
@@ -28,9 +25,14 @@ public class CommandModule extends AbstractModule {
 
     @Override
     protected void configure() {
-        bind(this._event.getClass()).to(this._eventClass);
-        bind(ICommandFactory.class).toProvider(
-                FactoryProvider.newFactory(ICommandFactory.class, _commandClass));
+        bind(this._eventClass).toInstance(this._event);
+        try {
+            bind(this._commandClass).toInstance(this._commandClass.newInstance());
+        } catch (InstantiationException x) {
+            x.printStackTrace();
+        } catch (IllegalAccessException x) {
+            x.printStackTrace();
+        }
     }
     
 }

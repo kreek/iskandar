@@ -32,7 +32,6 @@ public class Iskandar implements IIskandar {
         Injector injector = Guice.createInjector(new IskandarModule());
         this._eventDispatcher = injector.getInstance(IEventDispatcher.class);
         this._commandMap = injector.getInstance(ICommandMap.class);
-        System.out.println("funk");
     }
     
     ////////////////////////////////////////////////////////////////////////////

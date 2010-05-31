@@ -21,9 +21,9 @@ public class TestCommand extends Command implements ICommand {
     private final TestEvent _testEvent;
 
     @Inject
-    public TestCommand(@Assisted IEvent e) {
+    public TestCommand(TestEvent e) {
         super();
-        this._testEvent = (TestEvent)e;
+        this._testEvent = e;
     }
 
     @Override
