@@ -16,8 +16,7 @@ public abstract class Command implements ICommand {
     public void execute() {
     }
 
-    @Retention(RetentionPolicy.RUNTIME)
-    @Target({ElementType.FIELD, ElementType.PARAMETER})
-    @BindingAnnotation
-    public @interface Event {}
+    public void dispatch() {
+        
+    }
 }
