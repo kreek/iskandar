@@ -1,9 +1,7 @@
 package com.opensoftdev.iskandar.base;
 
 import com.google.inject.Guice;
-import com.google.inject.Inject;
 import com.google.inject.Injector;
-import com.opensoftdev.iskandar.base.support.ITestObject;
 import com.opensoftdev.iskandar.base.support.TestCommand;
 import com.opensoftdev.iskandar.base.support.TestEvent;
 import com.opensoftdev.iskandar.base.support.TestObject;
@@ -18,7 +16,6 @@ import junit.framework.TestCase;
 public class IskandarTestCase extends TestCase {
 
     private IIskandar _iskandar;
-    private ITestObject _testObject;
     
     public IskandarTestCase() {
 

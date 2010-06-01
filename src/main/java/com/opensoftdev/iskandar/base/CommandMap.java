@@ -3,10 +3,7 @@ package com.opensoftdev.iskandar.base;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.Singleton;
-import com.opensoftdev.iskandar.core.ICommand;
-import com.opensoftdev.iskandar.core.ICommandFactory;
 import com.opensoftdev.iskandar.core.ICommandMap;
-import com.opensoftdev.iskandar.core.IEvent;
 import com.opensoftdev.iskandar.core.IEventDispatcher;
 import com.opensoftdev.iskandar.core.IEventListener;
 import java.util.HashMap;
@@ -81,7 +78,8 @@ public class CommandMap implements ICommandMap {
     }
 
     @Override
-    public void unmapEvent(String eventType, Class commandClass, Class eventClass) throws IskandarException {
+    public void unmapEvent(String eventType, Class commandClass, Class eventClass)
+            throws IskandarException {
 
         if (_commandMap.get(eventType) != null) {
             _commandMap.remove(eventType);
@@ -112,7 +110,8 @@ public class CommandMap implements ICommandMap {
     //
     ////////////////////////////////////////////////////////////////////////////
 
-    protected void routeEventToCommand(Event e, Class commandClass, Class eventClass) throws InstantiationException {
+    protected void routeEventToCommand(Event e, Class commandClass, Class eventClass)
+            throws InstantiationException {
 
         if (e.getClass() != eventClass) {
             return;
@@ -120,7 +119,6 @@ public class CommandMap implements ICommandMap {
 
         CommandModule commandModule = new CommandModule(e, eventClass, commandClass);
         Injector commandInjector = this._injector.createChildInjector(commandModule);
-//        ICommandFactory commandFactory = commandInjector.getInstance(ICommandFactory.class);
         Command command = (Command)commandInjector.getInstance(commandClass);
         command.execute();
     }

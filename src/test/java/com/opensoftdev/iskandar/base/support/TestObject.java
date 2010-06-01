@@ -1,7 +1,5 @@
 package com.opensoftdev.iskandar.base.support;
 
-import com.google.inject.Inject;
-
 
 public class TestObject {
 
