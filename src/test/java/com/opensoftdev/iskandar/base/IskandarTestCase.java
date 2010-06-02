@@ -2,6 +2,7 @@ package com.opensoftdev.iskandar.base;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;
+import com.opensoftdev.iskandar.base.support.ITestEvents;
 import com.opensoftdev.iskandar.base.support.TestCommand;
 import com.opensoftdev.iskandar.base.support.TestEvent;
 import com.opensoftdev.iskandar.base.support.TestObject;
@@ -49,9 +50,9 @@ public class IskandarTestCase extends TestCase {
 
     public void test_commandExecutes() throws IskandarException {
 
-        _iskandar.mapEvent(TestEvent.TEST_ONE, TestCommand.class, TestEvent.class);
+        _iskandar.mapEvent(ITestEvents.events.TEST_ONE.toString(), TestCommand.class, TestEvent.class);
         TestObject testObject = new TestObject();
-        _iskandar.dispatchEvent(new TestEvent(TestEvent.TEST_ONE, testObject));
+        _iskandar.dispatchEvent(new TestEvent(ITestEvents.events.TEST_ONE, testObject));
         assertEquals(true, testObject.isCommandExecuted());
         System.out.println("done");
     }

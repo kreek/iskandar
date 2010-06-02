@@ -10,9 +10,8 @@ import com.opensoftdev.iskandar.core.IEvent;
 
 public class TestEvent extends Event implements IEvent {
 
-    public static final String TEST_ONE = "testOne";
-    public static final String TEST_TWO = "testTwo";
-    
+
+   
     private String _eventType;
     private final TestObject _testObject;
 
@@ -21,8 +20,8 @@ public class TestEvent extends Event implements IEvent {
     }
 
     @Inject
-    public TestEvent(String eventType, TestObject testObject) {
-        super(eventType);
+    public TestEvent(ITestEvents.events eventType, TestObject testObject) {
+        super(eventType.toString());
         this._testObject = testObject;
     }
 }
