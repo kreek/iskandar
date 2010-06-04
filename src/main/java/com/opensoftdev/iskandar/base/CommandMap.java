@@ -99,6 +99,7 @@ public class CommandMap implements ICommandMap {
         }
     }
 
+    
     protected void routeEventToCommand(IEvent e, ICommand commandClass) {
         commandClass.execute(e);
     }

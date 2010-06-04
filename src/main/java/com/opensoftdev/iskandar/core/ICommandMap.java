@@ -18,4 +18,5 @@ public interface ICommandMap {
     void mapEvent(String eventType, ICommand commandClass, IEvent eventClass) throws IskandarException;
     void unmapEvent(String eventType, ICommand commandClass, IEvent eventClass) throws IskandarException;
     boolean hasEventCommand(String eventType, ICommand commandClass, IEvent eventClass);
+
 }
