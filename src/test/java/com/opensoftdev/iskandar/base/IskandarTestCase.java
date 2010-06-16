@@ -4,6 +4,7 @@
  */
 package com.opensoftdev.iskandar.base;
 
+import com.opensoftdev.iskandar.Iskandar;
 import com.opensoftdev.iskandar.core.ICommand;
 import com.opensoftdev.iskandar.core.IEvent;
 import junit.framework.TestCase;
