@@ -1,14 +1,11 @@
 package com.opensoftdev.iskandar.base;
 
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
-import com.opensoftdev.iskandar.core.IEventDispatcher;
 import com.opensoftdev.iskandar.core.IEvent;
+import com.opensoftdev.iskandar.core.IEventDispatcher;
 import com.opensoftdev.iskandar.core.IEventListener;
 import java.util.HashMap;
 import java.util.Set;
 
-@Singleton
 public class EventDispatcher implements IEventDispatcher {
 
     private HashMap<String, IEventListener> _listeners = new HashMap();
@@ -19,7 +16,6 @@ public class EventDispatcher implements IEventDispatcher {
         this._unitTesting = _unitTesting;
     }
 
-    @Inject
     public EventDispatcher() {
         
     }
@@ -35,7 +31,7 @@ public class EventDispatcher implements IEventDispatcher {
     }
 
     @Override
-    public void dispatchEvent(Event e) throws IskandarException {
+    public void dispatchEvent(IEvent e) throws IskandarException {
 
         // throw exception for unit test framework to do assets with
         if (this._unitTesting) {

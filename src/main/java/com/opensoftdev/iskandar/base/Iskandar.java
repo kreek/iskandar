@@ -1,17 +1,14 @@
 package com.opensoftdev.iskandar.base;
 
-import com.google.inject.AbstractModule;
-import com.google.inject.Guice;
-import com.google.inject.Inject;
-import com.google.inject.Injector;
-import com.google.inject.Singleton;
+import com.opensoftdev.iskandar.base.CommandMap;
+import com.opensoftdev.iskandar.base.EventDispatcher;
+import com.opensoftdev.iskandar.base.IskandarException;
+import com.opensoftdev.iskandar.core.ICommand;
 import com.opensoftdev.iskandar.core.ICommandMap;
 import com.opensoftdev.iskandar.core.IEvent;
 import com.opensoftdev.iskandar.core.IEventDispatcher;
-import com.opensoftdev.iskandar.core.IIskandar;
 
-@Singleton
-public class Iskandar implements IIskandar {
+public class Iskandar {
 
     ////////////////////////////////////////////////////////////////////////////
     //
@@ -19,8 +16,23 @@ public class Iskandar implements IIskandar {
     //
     ////////////////////////////////////////////////////////////////////////////
 
-    private IEventDispatcher _eventDispatcher;
+    private static Iskandar instance = null;
     private ICommandMap _commandMap;
+    private IEventDispatcher _eventDispatcher;
+
+    ////////////////////////////////////////////////////////////////////////////
+    //
+    // GETTERS/SETTERS
+    //
+    ////////////////////////////////////////////////////////////////////////////
+
+    public ICommandMap getCommandMap() {
+        return _commandMap;
+    }
+
+    public IEventDispatcher getEventDispatcher() {
+        return _eventDispatcher;
+    }
 
     ////////////////////////////////////////////////////////////////////////////
     //
@@ -28,43 +40,48 @@ public class Iskandar implements IIskandar {
     //
     ////////////////////////////////////////////////////////////////////////////
 
-    public Iskandar() {
-        Injector injector = Guice.createInjector(new IskandarModule());
-        this._eventDispatcher = injector.getInstance(IEventDispatcher.class);
-        this._commandMap = injector.getInstance(ICommandMap.class);
+    private Iskandar() {
     }
-    
+
     ////////////////////////////////////////////////////////////////////////////
     //
     // PUBLIC METHODS
     //
     ////////////////////////////////////////////////////////////////////////////
 
-    public void startup() {
-        
+    public static Iskandar getInstance() {
+
+        if (instance == null) {
+            instance = new Iskandar();
+        }
+
+        return instance;
     }
 
-    @Override
-    public void dispatchEvent(Event e) throws IskandarException {
+    public void startup(){
+        this._commandMap = new CommandMap();
+        this._eventDispatcher = new EventDispatcher();
+        this._commandMap.setEventDispatcher(this._eventDispatcher);
+    }
+
+    public void dispatchEvent(IEvent e) throws IskandarException {
         this._eventDispatcher.dispatchEvent(e);
     }
 
-    @Override
-    public void mapEvent(String eventType, Class commandClass, Class eventClass) throws IskandarException {
-        this._commandMap.mapEvent(eventType, commandClass, eventClass);
+    public void mapEvent(String eventType, ICommand commandClass)
+            throws IskandarException {
+        this._commandMap.mapEvent(eventType, commandClass);
     }
 
-    @Override
-    public void unmapEvent(String eventType, Class commandClass, Class eventClass) throws IskandarException {
-        this._commandMap.unmapEvent(eventType, commandClass, eventClass);
+    public void unmapEvent(String eventType, ICommand commandClass)
+            throws IskandarException {
+        this._commandMap.unmapEvent(eventType, commandClass);
     }
 
-    @Override
-    public boolean hasEventCommand(String eventType, Class commandClass, Class eventClass) {
-        return this._commandMap.hasEventCommand(eventType, commandClass, eventClass);
+    public boolean hasEventCommand(String eventType, ICommand commandClass) {
+        return this._commandMap.hasEventCommand(eventType, commandClass);
     }
 
-    @Override
     public void setUnitTesting(boolean unitTesting) throws IskandarException {
         this._eventDispatcher.setUnitTesting(unitTesting);
     }

@@ -1,5 +1,6 @@
 package com.opensoftdev.iskandar.core;
 
 public interface ICommand {
-    void execute();
+
+    public void execute(IEvent e);
 }
