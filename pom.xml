@@ -44,4 +44,14 @@
             </plugin>
         </plugins>
     </build>
+    <distributionManagement>
+        <site>
+            <id>Iskandar</id>
+            <url>file:///${basedir}/../../../temp</url>
+        </site>
+        <repository>
+            <id>Iskandar</id>
+            <url>file:///${basedir}/../../../temp/maven2</url>
+        </repository>
+    </distributionManagement>
 </project>
