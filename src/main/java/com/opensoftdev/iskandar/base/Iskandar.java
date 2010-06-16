@@ -1,8 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package com.opensoftdev.iskandar.base;
 
 import com.opensoftdev.iskandar.core.ICommand;
@@ -10,13 +5,6 @@ import com.opensoftdev.iskandar.core.ICommandMap;
 import com.opensoftdev.iskandar.core.IEvent;
 import com.opensoftdev.iskandar.core.IEventDispatcher;
 
-
-/**
- *
- * @author arash
- *
- * 
- */
 public class Iskandar{
 
     private static Iskandar instance = null;
