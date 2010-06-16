@@ -1,7 +1,6 @@
 h1. Iskandar
 
-Iskandar is a lightweight framework for creating loosely coupled and highly testable applications in Java. It's main feature is an implementation of the command pattern, which allows an application to issue requests to an object without making any assumptions about the request, or the receiving object. Iskandar allows you to write maintainable applications by eshewing hard wiring through Factories and Singletons in favor of test-driven development via dependency injection (DI). To keep everything lightweight Iskandar uses Google Guice as its DI Framework.
-
+Iskandar is a lightweight framework for creating loosely coupled and highly testable applications in Java. It's main feature is an implementation of the command pattern, which allows an application to issue requests to an object without making any assumptions about the request, or the receiving object. Commands act as a wrapper for your business logic, allowing you to easily add, update, or remove functionality. Combine Iskandar with a dependency injection framework such as Spring or Guice to gain even more agility and portability.
 h2. Inspiration
 
 Iskandar was originaly written to work with the Vaadin UI toolkit but it can be used for any Java application. Iskandar's developers come from the Flex/Flash world and we are fans of Robotlegs, and before it PureMVC. We wanted a similar work-flow in Java and thus Iskandar was born.
