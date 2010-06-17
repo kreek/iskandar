@@ -1,6 +1,6 @@
-package com.opensoftdev.iskandar.core;
+package org.iskandarframework.iskandar.core;
 
-import com.opensoftdev.iskandar.base.IskandarException;
+import org.iskandarframework.iskandar.base.IskandarException;
 
 public interface ICommandMap {
 

@@ -1,4 +1,4 @@
-package com.opensoftdev.iskandar.core;
+package org.iskandarframework.iskandar.core;
 
 import java.util.EventListener;
 

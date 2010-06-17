@@ -1,4 +1,4 @@
-package com.opensoftdev.iskandar.base;
+package org.iskandarframework.iskandar.base;
 
 public class IskandarException extends Exception {
 

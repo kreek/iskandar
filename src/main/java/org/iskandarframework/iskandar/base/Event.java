@@ -1,6 +1,6 @@
-package com.opensoftdev.iskandar.base;
+package org.iskandarframework.iskandar.base;
 
-import com.opensoftdev.iskandar.core.IEvent;
+import org.iskandarframework.iskandar.core.IEvent;
 
 
 public abstract class Event implements IEvent {
