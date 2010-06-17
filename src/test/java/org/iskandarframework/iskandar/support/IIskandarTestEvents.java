@@ -3,7 +3,7 @@
  * and open the template in the editor.
  */
 
-package org.iskandarframework.iskandar.base;
+package org.iskandarframework.iskandar.support;
 
 /**
  *
@@ -11,8 +11,7 @@ package org.iskandarframework.iskandar.base;
  */
 public interface IIskandarTestEvents {
 
-    static enum events{
-
+    static enum events {
         IskandarUnitTestEvent
     }
 

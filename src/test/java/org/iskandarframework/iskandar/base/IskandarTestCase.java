@@ -4,11 +4,12 @@
  */
 package org.iskandarframework.iskandar.base;
 
-import org.iskandarframework.iskandar.base.IskandarException;
+import org.iskandarframework.iskandar.support.IIskandarTestEvents;
 import org.iskandarframework.iskandar.Iskandar;
-import org.iskandarframework.iskandar.core.ICommand;
 import org.iskandarframework.iskandar.core.IEvent;
 import junit.framework.TestCase;
+import org.iskandarframework.iskandar.support.TestCommand;
+import org.iskandarframework.iskandar.support.TestEvent;
 
 /**
  *
@@ -16,28 +17,6 @@ import junit.framework.TestCase;
  * @TODO:Finish test cases
  */
 public class IskandarTestCase extends TestCase {
-
-    public class TestCommand implements ICommand {
-
-        @Override
-        public void execute(IEvent e) {
-            throw new UnsupportedOperationException(e.getEventType());
-        }
-    }
-
-    public class TestEvent implements IEvent {
-
-        IIskandarTestEvents.events _e;
-
-        @Override
-        public String getEventType() {
-            return this._e.toString();
-        }
-
-        public TestEvent(IIskandarTestEvents.events e) {
-            this._e = e;
-        }
-    }
 
     public IskandarTestCase(String name) {
         super(name);
@@ -52,7 +31,6 @@ public class IskandarTestCase extends TestCase {
     public void test_startup_CommandMapNotNull() {
 
         Iskandar obj = Iskandar.getInstance();
-        obj.startup();
 
         assertNotNull(obj.getCommandMap());
     }
@@ -60,7 +38,6 @@ public class IskandarTestCase extends TestCase {
     public void test_startup_EventDipatcherNotNull() {
 
         Iskandar obj = Iskandar.getInstance();
-        obj.startup();
 
         assertNotNull(obj.getEventDispatcher());
     }
@@ -68,7 +45,6 @@ public class IskandarTestCase extends TestCase {
     public void test_startup_EventDipatcherInCommandMapNotNull() {
 
         Iskandar obj = Iskandar.getInstance();
-        obj.startup();
 
         assertNotNull(obj.getCommandMap().getEventDispatcher());
     }
@@ -76,18 +52,16 @@ public class IskandarTestCase extends TestCase {
     public void test_mapEventAndUnmapEvent() {
 
         Iskandar obj = Iskandar.getInstance();
-        obj.startup();
 
-        ICommand command = new TestCommand();
         IEvent event = new TestEvent(IIskandarTestEvents.events.IskandarUnitTestEvent);
 
         try {
-            obj.mapEvent(IIskandarTestEvents.events.IskandarUnitTestEvent.toString(), command);
+            obj.mapEvent(IIskandarTestEvents.events.IskandarUnitTestEvent.toString(), TestCommand.class);
         } catch (IskandarException e) {
             assertTrue(false);
         } finally {
             try {
-                obj.unmapEvent(IIskandarTestEvents.events.IskandarUnitTestEvent.toString(), command);
+                obj.unmapEvent(IIskandarTestEvents.events.IskandarUnitTestEvent.toString(), TestCommand.class);
             } catch (IskandarException e) {
                 assertTrue(false);
             }
@@ -97,14 +71,12 @@ public class IskandarTestCase extends TestCase {
     }
 
     public void test_dispatchEvent() {
-        Iskandar obj = Iskandar.getInstance();
-        obj.startup();
 
-        ICommand command = new TestCommand();
+        Iskandar obj = Iskandar.getInstance();
         IEvent event = new TestEvent(IIskandarTestEvents.events.IskandarUnitTestEvent);
 
         try {
-            obj.mapEvent(IIskandarTestEvents.events.IskandarUnitTestEvent.toString(), command);
+            obj.mapEvent(IIskandarTestEvents.events.IskandarUnitTestEvent.toString(), TestCommand.class);
             try {
                 obj.dispatchEvent(event);
             } catch (UnsupportedOperationException e) {

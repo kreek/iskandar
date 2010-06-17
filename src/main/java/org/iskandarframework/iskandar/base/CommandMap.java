@@ -1,105 +1,75 @@
 package org.iskandarframework.iskandar.base;
 
-import org.iskandarframework.iskandar.core.ICommand;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.iskandarframework.iskandar.core.ICommandMap;
 import org.iskandarframework.iskandar.core.IEvent;
 import org.iskandarframework.iskandar.core.IEventDispatcher;
 import org.iskandarframework.iskandar.core.IEventListener;
 import java.util.HashMap;
+import org.iskandarframework.iskandar.core.ICommand;
 
 public class CommandMap implements ICommandMap {
 
-    ////////////////////////////////////////////////////////////////////////////
-    //
-    // PROTECTED VARIABLES
-    //
-    ////////////////////////////////////////////////////////////////////////////
-
-    protected IEventDispatcher _eventDispatcher;
-    protected HashMap<String, ICommand> _commandMap = new HashMap();
-
-    ////////////////////////////////////////////////////////////////////////////
-    //
-    // GETTERS/SETTERS
-    //
-    ////////////////////////////////////////////////////////////////////////////
+    protected IEventDispatcher eventDispatcher;
+    protected HashMap<String, Class> commandMap = new HashMap();
 
     @Override
     public void setEventDispatcher(IEventDispatcher eventDispatcher) {
-        this._eventDispatcher = eventDispatcher;
+        this.eventDispatcher = eventDispatcher;
     }
 
     @Override
     public IEventDispatcher getEventDispatcher() {
-        return _eventDispatcher;
+        return eventDispatcher;
     }
-
-    ////////////////////////////////////////////////////////////////////////////
-    //
-    // CONSTRUCTOR
-    //
-    ////////////////////////////////////////////////////////////////////////////
 
     public CommandMap() {
-        
     }
 
-    ////////////////////////////////////////////////////////////////////////////
-    //
-    // PUBLIC METHODS
-    //
-    ////////////////////////////////////////////////////////////////////////////
-    
     @Override
-    public void mapEvent(String eventType, ICommand commandClass)
-            throws IskandarException {
-
-        if (_commandMap.get(eventType) == null) {
-            _commandMap.put(eventType, commandClass);
+    public void mapEvent(String eventType, Class commandClass) throws IskandarException {
+        if (commandMap.get(eventType) == null) {
+            commandMap.put(eventType, commandClass);
         } else {
             throw new IskandarException("Command already mapped to: " + eventType);
         }
 
-        _eventDispatcher.addEventListener(eventType, new IEventListener() {
+        eventDispatcher.addEventListener(eventType, new IEventListener() {
 
             @Override
             public void handleEvent(IEvent e) {
-                routeEventToCommand(e, _commandMap.get(e.getEventType()));
+                routeEventToCommand(e, commandMap.get(e.getEventType()));
             }
         });
-        
     }
 
     @Override
-    public void unmapEvent(String eventType, ICommand commandClass)
-            throws IskandarException {
-
-        if (_commandMap.get(eventType) != null) {
-            _commandMap.remove(eventType);
+    public void unmapEvent(String eventType, Class commandClass) throws IskandarException {
+        if (commandMap.get(eventType) != null) {
+            commandMap.remove(eventType);
         } else {
             throw new IskandarException("Command not mapped to: " + eventType);
         }
-
     }
 
     @Override
-    public boolean hasEventCommand(String eventType, ICommand commandClass) {
-
-        if (_commandMap.get(eventType) != null) {
+    public boolean hasEventCommand(String eventType, Class commandClass) {
+        if (commandMap.get(eventType) != null) {
             return true;
         } else {
             return false;
         }
-        
     }
 
-    ////////////////////////////////////////////////////////////////////////////
-    //
-    // PROTECTED METHODS
-    //
-    ////////////////////////////////////////////////////////////////////////////
-    
-    protected void routeEventToCommand(IEvent e, ICommand commandClass) {
-        commandClass.execute(e);
+    protected void routeEventToCommand(IEvent e, Class commandClass) {
+        try {
+            ICommand command = (ICommand) commandClass.newInstance();
+            command.execute(e);
+        } catch (InstantiationException ex) {
+            Logger.getLogger(CommandMap.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            Logger.getLogger(CommandMap.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 }
