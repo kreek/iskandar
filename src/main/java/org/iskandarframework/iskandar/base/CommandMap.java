@@ -17,7 +17,6 @@ public class CommandMap implements ICommandMap {
 
     protected IEventDispatcher _eventDispatcher;
     protected HashMap<String, ICommand> _commandMap = new HashMap();
-    protected HashMap<String, IEvent> _eventTypeMap = new HashMap();
 
     ////////////////////////////////////////////////////////////////////////////
     //
