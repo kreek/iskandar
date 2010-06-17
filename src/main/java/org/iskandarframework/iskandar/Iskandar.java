@@ -22,7 +22,7 @@ public class Iskandar implements IIskandar {
         return _eventDispatcher;
     }
 
-    protected Iskandar() {
+    private Iskandar() {
         this._commandMap = new CommandMap();
         this._eventDispatcher = new EventDispatcher();
         this._commandMap.setEventDispatcher(this._eventDispatcher);
