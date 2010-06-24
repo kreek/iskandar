@@ -7,8 +7,10 @@ package com.opensoftdev.iskandar.core;
 
 /**
  *
- * @author alastair
+ * @author arash
  */
-public interface IContext {
-    public IEventDispatcher getEventDispatcher();
+public interface IIskandar {
+
+    void mapCommands();
+
 }
