@@ -3,7 +3,7 @@
  * and open the template in the editor.
  */
 
-package com.opensoftdev.iskandar.core;
+package org.iskandarframework.iskandar.core;
 
 import java.util.EventListener;
 

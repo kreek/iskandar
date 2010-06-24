@@ -3,12 +3,12 @@
  * and open the template in the editor.
  */
 
-package com.opensoftdev.iskandar.base;
+package org.iskandarframework.iskandar.base;
 
 
-import com.opensoftdev.iskandar.core.IEventDispatcher;
-import com.opensoftdev.iskandar.core.IEvent;
-import com.opensoftdev.iskandar.core.IEventListener;
+import org.iskandarframework.iskandar.core.IEventDispatcher;
+import org.iskandarframework.iskandar.core.IEvent;
+import org.iskandarframework.iskandar.core.IEventListener;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;

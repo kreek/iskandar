@@ -1,9 +1,9 @@
-package com.opensoftdev.iskandar.base;
+package org.iskandarframework.iskandar.base;
 
-import com.opensoftdev.iskandar.core.ICommand;
-import com.opensoftdev.iskandar.core.ICommandMap;
-import com.opensoftdev.iskandar.core.IEvent;
-import com.opensoftdev.iskandar.core.IEventDispatcher;
+import org.iskandarframework.iskandar.core.ICommand;
+import org.iskandarframework.iskandar.core.ICommandMap;
+import org.iskandarframework.iskandar.core.IEvent;
+import org.iskandarframework.iskandar.core.IEventDispatcher;
 
 public class Iskandar{
 

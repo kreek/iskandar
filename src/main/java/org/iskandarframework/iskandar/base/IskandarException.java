@@ -3,7 +3,7 @@
  * and open the template in the editor.
  */
 
-package com.opensoftdev.iskandar.base;
+package org.iskandarframework.iskandar.base;
 
 
 /**

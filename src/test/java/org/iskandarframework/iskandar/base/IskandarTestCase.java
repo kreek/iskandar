@@ -3,10 +3,12 @@
  * and open the template in the editor.
  */
 
-package com.opensoftdev.iskandar.base;
+package org.iskandarframework.iskandar.base;
 
-import com.opensoftdev.iskandar.core.ICommand;
-import com.opensoftdev.iskandar.core.IEvent;
+import org.iskandarframework.iskandar.base.Iskandar;
+import org.iskandarframework.iskandar.base.IskandarException;
+import org.iskandarframework.iskandar.core.ICommand;
+import org.iskandarframework.iskandar.core.IEvent;
 import junit.framework.TestCase;
 
 /**
