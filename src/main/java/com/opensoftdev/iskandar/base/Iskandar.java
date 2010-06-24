@@ -37,7 +37,7 @@ public class Iskandar{
         this._eventDispatcher.setUnitTesting(unitTesting);
     }
     
-    private Iskandar() {
+    public Iskandar() {
 
 
     }
@@ -69,21 +69,21 @@ public class Iskandar{
     }
 
 
-    public boolean hasEventCommand(String eventType, ICommand commandClass, IEvent eventClass) {
+    public boolean hasCommand(String eventType) {
 
-       return this._commandMap.hasEventCommand(eventType, commandClass, eventClass);
+       return this._commandMap.hasCommand(eventType);
     }
 
 
-    public void mapEvent(String eventType, ICommand commandClass, IEvent eventClass) throws IskandarException {
+    public void mapCommand(String eventType, Class commandClass) throws IskandarException {
 
-        this._commandMap.mapEvent(eventType, commandClass, eventClass);
+        this._commandMap.mapCommand(eventType, commandClass);
     }
 
 
-    public void unmapEvent(String eventType, ICommand commandClass, IEvent eventClass) throws IskandarException {
+    public void unmapCommand(String eventType) throws IskandarException {
 
-        this._commandMap.unmapEvent(eventType, commandClass, eventClass);
+        this._commandMap.unmapCommand(eventType);
     }
 
 

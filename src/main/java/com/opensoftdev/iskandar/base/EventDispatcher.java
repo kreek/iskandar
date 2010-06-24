@@ -10,6 +10,7 @@ import com.opensoftdev.iskandar.core.IEventDispatcher;
 import com.opensoftdev.iskandar.core.IEvent;
 import com.opensoftdev.iskandar.core.IEventListener;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Set;
 
 
@@ -19,7 +20,7 @@ import java.util.Set;
  */
 public class EventDispatcher implements IEventDispatcher {
 
-    private HashMap<String, IEventListener> _listeners = new HashMap();
+    private Map<String, IEventListener> _listeners = new HashMap();
 
     private boolean _unitTesting = false;
 

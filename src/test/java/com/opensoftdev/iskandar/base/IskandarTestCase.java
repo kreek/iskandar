@@ -16,7 +16,7 @@ import junit.framework.TestCase;
  */
 public class IskandarTestCase extends TestCase{
 
-    public class TestCommand implements ICommand{
+    public static class TestCommand implements ICommand{
 
         @Override
         public void execute(IEvent e) {
@@ -28,7 +28,16 @@ public class IskandarTestCase extends TestCase{
     
     public class TestEvent implements IEvent {
 
-        IIskandarTestEvents.events _e;
+        private IIskandarTestEvents.events _e;
+        
+        private Object _payload;
+
+        @Override
+        public Object getEventPayload() {
+            throw new UnsupportedOperationException("Not supported yet.");
+        }
+
+
 
         @Override
         public String getEventType() {
@@ -87,24 +96,21 @@ public class IskandarTestCase extends TestCase{
         Iskandar obj = Iskandar.getInstance();
         obj.init();
 
-        ICommand command = new TestCommand();
-        IEvent event = new TestEvent(IIskandarTestEvents.events.IskandarUnitTestEvent);
-
+       
         try{
 
-            obj.mapEvent(IIskandarTestEvents.events.IskandarUnitTestEvent.toString(), command, event);
+            obj.mapCommand(IIskandarTestEvents.events.IskandarUnitTestEvent.toString(), TestCommand.class);
 
         }catch(IskandarException e){
-           
+          
            assertTrue(false);
         }finally {
 
             try{
 
-                obj.unmapEvent(IIskandarTestEvents.events.IskandarUnitTestEvent.toString(), command, event);
+                obj.unmapCommand(IIskandarTestEvents.events.IskandarUnitTestEvent.toString());
             }catch(IskandarException e){
 
-                
                 assertTrue(false);
             }
 
@@ -127,7 +133,7 @@ public class IskandarTestCase extends TestCase{
         try{
 
 
-            obj.mapEvent(IIskandarTestEvents.events.IskandarUnitTestEvent.toString(), command, event);
+            obj.mapCommand(IIskandarTestEvents.events.IskandarUnitTestEvent.toString(), TestCommand.class);
             try{
 
                 obj.dispatchEvent(event);

@@ -10,6 +10,9 @@ import com.opensoftdev.iskandar.core.IEvent;
 import com.opensoftdev.iskandar.core.IEventDispatcher;
 import com.opensoftdev.iskandar.core.IEventListener;
 import java.util.HashMap;
+import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 
 /**
@@ -19,8 +22,8 @@ import java.util.HashMap;
 public class CommandMap implements ICommandMap {
 
     protected IEventDispatcher _eventDispatcher;
-    protected HashMap<String, ICommand> _commandMap = new HashMap();
-    protected HashMap<String, IEvent> _eventTypeMap = new HashMap();
+    protected Map<String, ICommand> _commandMap = new HashMap();
+    
 
     @Override
     public void setEventDispatcher(IEventDispatcher eventDispatcher) {
@@ -39,24 +42,33 @@ public class CommandMap implements ICommandMap {
         
     }
     @Override
-    public void mapEvent(String eventType, ICommand commandClass, IEvent eventClass) throws IskandarException {
+    public void mapCommand(String eventType, Class commandClass) throws IskandarException {
 
 
         if (_commandMap.get(eventType) == null) {
-            _commandMap.put(eventType, commandClass);
+
+            ICommand commandIntance;
+            try {
+                commandIntance = (ICommand) commandClass.newInstance();
+                _commandMap.put(eventType, commandIntance);
+
+            } catch (InstantiationException ex) {
+
+                throw new IskandarException("Error instantiating command: " + commandClass.getName() + " Details: " + ex.getMessage());
+
+
+            } catch (IllegalAccessException ex) {
+                
+                throw new IskandarException("Error instantiating command: " + commandClass.getName() + " Details: " + ex.getMessage());
+            }
+            
 
         }else{
 
             throw new IskandarException("Command already mapped to: " + eventType);
         }
 
-       
-
-        if (_eventTypeMap.get(eventType) == null) {
-            _eventTypeMap.put(eventType, eventClass);
-        }else{
-            throw new IskandarException("Event already mapped to: " + eventType);
-        }
+              
 
         _eventDispatcher.addEventListener(eventType, new IEventListener() {
             @Override
@@ -68,37 +80,25 @@ public class CommandMap implements ICommandMap {
     }
 
     @Override
-    public void unmapEvent(String eventType, ICommand commandClass, IEvent eventClass) throws IskandarException {
+    public void unmapCommand(String eventType) throws IskandarException {
 
         if (_commandMap.get(eventType) != null) {
             _commandMap.remove(eventType);
-
-        }else{
-            throw new IskandarException("Command not mapped to: " + eventType);
-        }
-
-
-
-        if (_eventTypeMap.get(eventType) != null) {
-            _eventTypeMap.remove(eventType);
-        }else{
-            throw new IskandarException("Event already mapped to: " + eventType);
-        }
-
-
+        }        
     }
 
     @Override
-    public boolean hasEventCommand(String eventType, ICommand commandClass, IEvent eventClass) {
+    public boolean hasCommand(String eventType) {
 
-        if (_commandMap.get(eventType) != null) {
+        if (  _commandMap.get(eventType) != null) {
+
             return true;
-
-        }else{
-            return false;
         }
+
+        return false;
     }
 
+    
     
     protected void routeEventToCommand(IEvent e, ICommand commandClass) {
         commandClass.execute(e);

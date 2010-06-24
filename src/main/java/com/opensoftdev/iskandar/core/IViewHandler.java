@@ -5,6 +5,8 @@
 
 package com.opensoftdev.iskandar.core;
 
+import java.util.Map;
+
 
 /**
  *
@@ -13,10 +15,8 @@ package com.opensoftdev.iskandar.core;
 public interface IViewHandler{
 
 
-
-    void mapView(String viewName, Object view);
-
-    void setView(Object view);
+    Map<String, Object> getViewMap();
+    void setView(String view);
 
 
 
