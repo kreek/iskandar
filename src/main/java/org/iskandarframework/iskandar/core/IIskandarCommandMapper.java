@@ -9,7 +9,7 @@ package org.iskandarframework.iskandar.core;
  *
  * @author arash
  */
-public interface IIskandar {
+public interface IIskandarCommandMapper {
 
     void mapCommands();
 

@@ -1,6 +1,7 @@
 package org.iskandarframework.iskandar.base;
 
 import org.iskandarframework.iskandar.core.ICommand;
+import org.iskandarframework.iskandar.core.ICommandFactory;
 import org.iskandarframework.iskandar.core.ICommandMap;
 import org.iskandarframework.iskandar.core.IEvent;
 import org.iskandarframework.iskandar.core.IEventDispatcher;
@@ -27,7 +28,7 @@ public class Iskandar{
     
     public Iskandar() {
 
-
+        init();
     }
 
     public static Iskandar getInstance(){
@@ -66,6 +67,11 @@ public class Iskandar{
     public void mapCommand(String eventType, Class commandClass) throws IskandarException {
 
         this._commandMap.mapCommand(eventType, commandClass);
+    }
+
+    public void mapCommand(String eventType, ICommandFactory commandFactory) throws IskandarException {
+
+        this._commandMap.mapCommand(eventType, commandFactory);
     }
 
 

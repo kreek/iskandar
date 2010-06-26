@@ -11,8 +11,7 @@ import org.iskandarframework.iskandar.core.IEventDispatcher;
 import org.iskandarframework.iskandar.core.IEventListener;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import org.iskandarframework.iskandar.core.ICommandFactory;
 
 
 /**
@@ -71,6 +70,31 @@ public class CommandMap implements ICommandMap {
               
 
         _eventDispatcher.addEventListener(eventType, new IEventListener() {
+            @Override
+            public void handleEvent(IEvent e) {
+                routeEventToCommand(e, _commandMap.get(e.getEventType()));
+            }
+        });
+
+    }
+
+    @Override
+    public void mapCommand(String eventType, ICommandFactory commandFactory) throws IskandarException {
+
+
+        if (_commandMap.get(eventType) == null) {
+
+                ICommand commandIntance;
+                commandIntance = commandFactory.getCommand();
+                _commandMap.put(eventType, commandIntance);
+
+        } else {
+
+            throw new IskandarException("Command already mapped to: " + eventType);
+        }
+
+        _eventDispatcher.addEventListener(eventType, new IEventListener() {
+
             @Override
             public void handleEvent(IEvent e) {
                 routeEventToCommand(e, _commandMap.get(e.getEventType()));
