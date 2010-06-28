@@ -56,12 +56,12 @@ public class IskandarTestCase extends TestCase {
         IEvent event = new TestEvent(IIskandarTestEvents.events.IskandarUnitTestEvent);
 
         try {
-            obj.mapEvent(IIskandarTestEvents.events.IskandarUnitTestEvent.toString(), TestCommand.class);
+            obj.mapCommand(IIskandarTestEvents.events.IskandarUnitTestEvent.toString(), TestCommand.class);
         } catch (IskandarException e) {
             assertTrue(false);
         } finally {
             try {
-                obj.unmapEvent(IIskandarTestEvents.events.IskandarUnitTestEvent.toString(), TestCommand.class);
+                obj.unmapCommand(IIskandarTestEvents.events.IskandarUnitTestEvent.toString(), TestCommand.class);
             } catch (IskandarException e) {
                 assertTrue(false);
             }
@@ -76,7 +76,7 @@ public class IskandarTestCase extends TestCase {
         IEvent event = new TestEvent(IIskandarTestEvents.events.IskandarUnitTestEvent);
 
         try {
-            obj.mapEvent(IIskandarTestEvents.events.IskandarUnitTestEvent.toString(), TestCommand.class);
+            obj.mapCommand(IIskandarTestEvents.events.IskandarUnitTestEvent.toString(), TestCommand.class);
             try {
                 obj.dispatchEvent(event);
             } catch (UnsupportedOperationException e) {

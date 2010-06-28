@@ -6,8 +6,8 @@ public interface ICommandMap {
 
     void setEventDispatcher(IEventDispatcher eventDispatcher);
     public IEventDispatcher getEventDispatcher();
-    void mapEvent(String eventType, Class commandClass) throws IskandarException;
-    void unmapEvent(String eventType, Class commandClass) throws IskandarException;
-    boolean hasEventCommand(String eventType, Class commandClass);
+    void mapCommand(String eventType, Class commandClass) throws IskandarException;
+    void unmapCommand(String eventType, Class commandClass) throws IskandarException;
+    boolean hasCommand(String eventType, Class commandClass);
 
 }

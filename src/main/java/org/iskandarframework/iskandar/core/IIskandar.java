@@ -14,9 +14,9 @@ import org.iskandarframework.iskandar.base.IskandarException;
 public interface IIskandar {
 
     void dispatchEvent(IEvent e) throws IskandarException;
-    void mapEvent(String eventType, Class commandClass) throws IskandarException;
-    void unmapEvent(String eventType, Class commandClass) throws IskandarException;
-    boolean hasEventCommand(String eventType, Class commandClass);
+    void mapCommand(String eventType, Class commandClass) throws IskandarException;
+    void unmapCommand(String eventType, Class commandClass) throws IskandarException;
+    boolean hasCommand(String eventType, Class commandClass);
     void setUnitTesting(boolean unitTesting) throws IskandarException;
     
 }

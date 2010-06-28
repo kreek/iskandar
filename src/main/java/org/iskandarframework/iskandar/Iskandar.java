@@ -22,7 +22,7 @@ public class Iskandar implements IIskandar {
         return _eventDispatcher;
     }
 
-    private Iskandar() {
+    public Iskandar() {
         this._commandMap = new CommandMap();
         this._eventDispatcher = new EventDispatcher();
         this._commandMap.setEventDispatcher(this._eventDispatcher);
@@ -34,7 +34,7 @@ public class Iskandar implements IIskandar {
                 instance = new Iskandar();
             }
         }
-
+        
         return instance;
     }
 
@@ -44,20 +44,20 @@ public class Iskandar implements IIskandar {
     }
 
     @Override
-    public void mapEvent(String eventType, Class commandClass)
+    public void mapCommand(String eventType, Class commandClass)
             throws IskandarException {
-        this._commandMap.mapEvent(eventType, commandClass);
+        this._commandMap.mapCommand(eventType, commandClass);
     }
 
     @Override
-    public void unmapEvent(String eventType, Class commandClass)
+    public void unmapCommand(String eventType, Class commandClass)
             throws IskandarException {
-        this._commandMap.unmapEvent(eventType, commandClass);
+        this._commandMap.unmapCommand(eventType, commandClass);
     }
 
     @Override
-    public boolean hasEventCommand(String eventType, Class commandClass) {
-        return this._commandMap.hasEventCommand(eventType, commandClass);
+    public boolean hasCommand(String eventType, Class commandClass) {
+        return this._commandMap.hasCommand(eventType, commandClass);
     }
 
     @Override

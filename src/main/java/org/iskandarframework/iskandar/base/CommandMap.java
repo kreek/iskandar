@@ -28,7 +28,7 @@ public class CommandMap implements ICommandMap {
     }
 
     @Override
-    public void mapEvent(String eventType, Class commandClass) throws IskandarException {
+    public void mapCommand(String eventType, Class commandClass) throws IskandarException {
         if (commandMap.get(eventType) == null) {
             commandMap.put(eventType, commandClass);
         } else {
@@ -45,7 +45,7 @@ public class CommandMap implements ICommandMap {
     }
 
     @Override
-    public void unmapEvent(String eventType, Class commandClass) throws IskandarException {
+    public void unmapCommand(String eventType, Class commandClass) throws IskandarException {
         if (commandMap.get(eventType) != null) {
             commandMap.remove(eventType);
         } else {
@@ -54,7 +54,7 @@ public class CommandMap implements ICommandMap {
     }
 
     @Override
-    public boolean hasEventCommand(String eventType, Class commandClass) {
+    public boolean hasCommand(String eventType, Class commandClass) {
         if (commandMap.get(eventType) != null) {
             return true;
         } else {
