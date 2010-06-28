@@ -1,25 +1,25 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package org.iskandarframework.iskandar.support;
 
 import org.iskandarframework.iskandar.core.IEvent;
 
-/**
- *
- * @author alastair
- */
+
 public class TestEvent implements IEvent {
 
-    IIskandarTestEvents.events e;
+    private IIskandarTestEvents.events _e;
+    private Object _payload;
+
+    public Object getEventPayload() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
 
     @Override
     public String getEventType() {
-        return this.e.toString();
+
+        return this._e.toString();
     }
 
     public TestEvent(IIskandarTestEvents.events e) {
-        this.e = e;
+
+        this._e = e;
     }
 }

@@ -1,21 +1,12 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package org.iskandarframework.iskandar.base;
 
-import org.iskandarframework.iskandar.support.IIskandarTestEvents;
-import org.iskandarframework.iskandar.Iskandar;
+import org.iskandarframework.iskandar.core.ICommand;
 import org.iskandarframework.iskandar.core.IEvent;
 import junit.framework.TestCase;
+import org.iskandarframework.iskandar.support.IIskandarTestEvents.events;
 import org.iskandarframework.iskandar.support.TestCommand;
 import org.iskandarframework.iskandar.support.TestEvent;
 
-/**
- *
- * @author arash
- * @TODO:Finish test cases
- */
 public class IskandarTestCase extends TestCase {
 
     public IskandarTestCase(String name) {
@@ -28,61 +19,84 @@ public class IskandarTestCase extends TestCase {
         assertNotNull(obj);
     }
 
-    public void test_startup_CommandMapNotNull() {
+    public void test_init_CommandMapNotNull() {
 
         Iskandar obj = Iskandar.getInstance();
+        obj.init();
 
         assertNotNull(obj.getCommandMap());
+
     }
 
-    public void test_startup_EventDipatcherNotNull() {
-
+    public void test_init_EventDipatcherNotNull() {
+        
         Iskandar obj = Iskandar.getInstance();
+        obj.init();
 
         assertNotNull(obj.getEventDispatcher());
+
     }
 
-    public void test_startup_EventDipatcherInCommandMapNotNull() {
-
+    public void test_init_EventDipatcherInCommandMapNotNull() {
         Iskandar obj = Iskandar.getInstance();
+        obj.init();
 
         assertNotNull(obj.getCommandMap().getEventDispatcher());
+
     }
 
     public void test_mapEventAndUnmapEvent() {
 
         Iskandar obj = Iskandar.getInstance();
+        obj.init();
 
-        IEvent event = new TestEvent(IIskandarTestEvents.events.IskandarUnitTestEvent);
 
         try {
+
             obj.mapCommand(IIskandarTestEvents.events.IskandarUnitTestEvent.toString(), TestCommand.class);
+
         } catch (IskandarException e) {
+
             assertTrue(false);
         } finally {
+
             try {
-                obj.unmapCommand(IIskandarTestEvents.events.IskandarUnitTestEvent.toString(), TestCommand.class);
+
+                obj.unmapCommand(IIskandarTestEvents.events.IskandarUnitTestEvent.toString());
             } catch (IskandarException e) {
+
                 assertTrue(false);
             }
+
+
         }
 
         assertTrue(true);
+
     }
 
     public void test_dispatchEvent() {
-
         Iskandar obj = Iskandar.getInstance();
-        IEvent event = new TestEvent(IIskandarTestEvents.events.IskandarUnitTestEvent);
+        obj.init();
+
+        ICommand command = new TestCommand();
+        IEvent event = new TestEvent(events.IskandarUnitTestEvent);
 
         try {
+
+
             obj.mapCommand(IIskandarTestEvents.events.IskandarUnitTestEvent.toString(), TestCommand.class);
             try {
+
                 obj.dispatchEvent(event);
+
             } catch (UnsupportedOperationException e) {
+
                 assertEquals(IIskandarTestEvents.events.IskandarUnitTestEvent.toString(), e.getMessage());
             }
+
         } catch (IskandarException e) {
+
             assertTrue(false);
         }
     }

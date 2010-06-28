@@ -1,14 +1,15 @@
 package org.iskandarframework.iskandar.base;
 
-import org.iskandarframework.iskandar.core.IEvent;
 import org.iskandarframework.iskandar.core.IEventDispatcher;
+import org.iskandarframework.iskandar.core.IEvent;
 import org.iskandarframework.iskandar.core.IEventListener;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Set;
 
 public class EventDispatcher implements IEventDispatcher {
 
-    private HashMap<String, IEventListener> _listeners = new HashMap();
+    private Map<String, IEventListener> _listeners = new HashMap();
     private boolean _unitTesting = false;
 
     @Override
@@ -17,7 +18,6 @@ public class EventDispatcher implements IEventDispatcher {
     }
 
     public EventDispatcher() {
-        
     }
 
     @Override
@@ -47,5 +47,4 @@ public class EventDispatcher implements IEventDispatcher {
             }
         }
     }
-    
 }

@@ -1,27 +1,27 @@
 package org.iskandarframework.iskandar.base;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import org.iskandarframework.iskandar.core.ICommand;
 import org.iskandarframework.iskandar.core.ICommandMap;
 import org.iskandarframework.iskandar.core.IEvent;
 import org.iskandarframework.iskandar.core.IEventDispatcher;
 import org.iskandarframework.iskandar.core.IEventListener;
 import java.util.HashMap;
-import org.iskandarframework.iskandar.core.ICommand;
+import java.util.Map;
+import org.iskandarframework.iskandar.core.ICommandFactory;
 
 public class CommandMap implements ICommandMap {
 
-    protected IEventDispatcher eventDispatcher;
-    protected HashMap<String, Class> commandMap = new HashMap();
+    protected IEventDispatcher _eventDispatcher;
+    protected Map<String, ICommand> _commandMap = new HashMap();
 
     @Override
     public void setEventDispatcher(IEventDispatcher eventDispatcher) {
-        this.eventDispatcher = eventDispatcher;
+        this._eventDispatcher = eventDispatcher;
     }
 
     @Override
     public IEventDispatcher getEventDispatcher() {
-        return eventDispatcher;
+        return _eventDispatcher;
     }
 
     public CommandMap() {
@@ -29,47 +29,76 @@ public class CommandMap implements ICommandMap {
 
     @Override
     public void mapCommand(String eventType, Class commandClass) throws IskandarException {
-        if (commandMap.get(eventType) == null) {
-            commandMap.put(eventType, commandClass);
+
+        if (_commandMap.get(eventType) == null) {
+
+            ICommand commandIntance;
+            try {
+                commandIntance = (ICommand) commandClass.newInstance();
+                _commandMap.put(eventType, commandIntance);
+            } catch (InstantiationException ex) {
+                throw new IskandarException("Error instantiating command: " + commandClass.getName() + " Details: " + ex.getMessage());
+            } catch (IllegalAccessException ex) {
+                throw new IskandarException("Error instantiating command: " + commandClass.getName() + " Details: " + ex.getMessage());
+            }
+
+        } else {
+
+            throw new IskandarException("Command already mapped to: " + eventType);
+
+        }
+
+        _eventDispatcher.addEventListener(eventType, new IEventListener() {
+
+            @Override
+            public void handleEvent(IEvent e) {
+                routeEventToCommand(e, _commandMap.get(e.getEventType()));
+            }
+        });
+
+    }
+
+    @Override
+    public void mapCommand(String eventType, ICommandFactory commandFactory) throws IskandarException {
+
+        if (_commandMap.get(eventType) == null) {
+            ICommand commandIntance;
+            commandIntance = commandFactory.getCommand();
+            _commandMap.put(eventType, commandIntance);
         } else {
             throw new IskandarException("Command already mapped to: " + eventType);
         }
 
-        eventDispatcher.addEventListener(eventType, new IEventListener() {
+        _eventDispatcher.addEventListener(eventType, new IEventListener() {
 
             @Override
             public void handleEvent(IEvent e) {
-                routeEventToCommand(e, commandMap.get(e.getEventType()));
+                routeEventToCommand(e, _commandMap.get(e.getEventType()));
             }
         });
     }
 
     @Override
-    public void unmapCommand(String eventType, Class commandClass) throws IskandarException {
-        if (commandMap.get(eventType) != null) {
-            commandMap.remove(eventType);
-        } else {
-            throw new IskandarException("Command not mapped to: " + eventType);
+    public void unmapCommand(String eventType) throws IskandarException {
+
+        if (_commandMap.get(eventType) != null) {
+            _commandMap.remove(eventType);
         }
+
     }
 
     @Override
-    public boolean hasCommand(String eventType, Class commandClass) {
-        if (commandMap.get(eventType) != null) {
+    public boolean hasCommand(String eventType) {
+
+        if (_commandMap.get(eventType) != null) {
             return true;
-        } else {
-            return false;
         }
+
+        return false;
+
     }
 
-    protected void routeEventToCommand(IEvent e, Class commandClass) {
-        try {
-            ICommand command = (ICommand) commandClass.newInstance();
-            command.execute(e);
-        } catch (InstantiationException ex) {
-            Logger.getLogger(CommandMap.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            Logger.getLogger(CommandMap.class.getName()).log(Level.SEVERE, null, ex);
-        }
+    protected void routeEventToCommand(IEvent e, ICommand commandClass) {
+        commandClass.execute(e);
     }
 }

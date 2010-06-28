@@ -5,14 +5,12 @@
 
 package org.iskandarframework.iskandar.core;
 
-import java.util.EventListener;
-
 /**
  *
- * @author alastair
+ * @author arash
  */
-public interface IEventListener extends EventListener{
+public interface ICommandFactory {
 
-    void handleEvent(IEvent e);
+    ICommand getCommand();
 
 }
