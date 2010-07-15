@@ -3,6 +3,7 @@ package org.iskandarframework.iskandar.base;
 import org.iskandarframework.iskandar.core.ICommand;
 import org.iskandarframework.iskandar.core.IEvent;
 import junit.framework.TestCase;
+import org.iskandarframework.iskandar.support.IIskandarTestEvents;
 import org.iskandarframework.iskandar.support.IIskandarTestEvents.events;
 import org.iskandarframework.iskandar.support.TestCommand;
 import org.iskandarframework.iskandar.support.TestEvent;
