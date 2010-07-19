@@ -35,9 +35,9 @@
     </licenses>
 
     <scm>
-        <connection>scm:git:git@github.com:kreek/Iskandar.git</connection>
-        <url>scm:git:git@github.com:kreek/Iskandar.git</url>
-        <developerConnection>scm:git:git@github.com:kreek/Iskandar.git</developerConnection>
+        <connection>scm:git:git@github.com:kreek/iskandar.git</connection>
+        <url>scm:git:git@github.com:kreek/iskandar.git</url>
+        <developerConnection>scm:git:git@github.com:kreek/iskandar.git</developerConnection>
     </scm>
 
     <dependencies>
