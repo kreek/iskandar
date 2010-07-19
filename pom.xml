@@ -1,11 +1,41 @@
+
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.iskandarframework</groupId>
     <artifactId>Iskandar</artifactId>
     <packaging>jar</packaging>
-    <version>1.0.3-SNAPSHOT</version>
+    <version>0.1.0-SNAPSHOT</version>
     <name>Iskandar</name>
-    <url>http://maven.apache.org</url>
+    <description>Iskandar is a lightweight Java framework for creating loosely
+    coupled and highly testable applications. It's main feature is an implementation
+    of the command pattern, which allows an application to issue requests to an object
+    without making any assumptions about the request, or the receiving object.
+    Commands act as a wrapper for your business logic, allowing you to easily add,
+    update, or remove functionality. Combine Iskandar with a dependency injection
+    framework such as Spring or Guice to gain even more agility.
+    </description>
+    <url>http://www.iskandarframework.org/</url>
+    <licenses>MIT</licenses>
+    <parent>
+        <groupId>org.sonatype.oss</groupId>
+        <artifactId>oss-parent</artifactId>
+        <version>3</version>
+    </parent>
+    <developers>
+        <developer>
+            <name>Alastair Dawson</name>
+            <email>alastair.j.dawson@gmail.com</email>
+        </developer>
+        <developer>
+            <name>Arash Sharif</name>
+            <email>asharif@ieee.org</email>
+        </developer>
+    </developers>
+    <scm>
+        <connection>scm:git:git@github.com:kreek/Iskandar.git</connection>
+        <url>scm:git:git@github.com:kreek/Iskandar.git</url>
+        <developerConnection>scm:git:git@github.com:kreek/Iskandar.git</developerConnection>
+    </scm>
     <dependencies>
         <dependency>
             <groupId>junit</groupId>
@@ -14,11 +44,6 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
-    <scm>
-        <connection>scm:git:git@github.com:kreek/Iskandar.git</connection>
-        <url>scm:git:git@github.com:kreek/Iskandar.git</url>
-        <developerConnection>scm:git:git@github.com:kreek/Iskandar.git</developerConnection>
-    </scm>
     <build>
         <plugins>
             <plugin>
@@ -42,16 +67,19 @@
                 <artifactId>maven-release-plugin</artifactId>
                 <version>2.0</version>
             </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-gpg-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>sign-artifacts</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>sign</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
     </build>
-    <distributionManagement>
-        <site>
-            <id>Iskandar</id>
-            <url>file:///${basedir}/../../../temp</url>
-        </site>
-        <repository>
-            <id>Iskandar</id>
-            <url>file:///${basedir}/../../../temp/maven2</url>
-        </repository>
-    </distributionManagement>
 </project>
