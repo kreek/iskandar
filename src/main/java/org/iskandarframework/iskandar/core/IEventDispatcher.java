@@ -1,8 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package org.iskandarframework.iskandar.core;
 
 import org.iskandarframework.iskandar.base.IskandarException;
@@ -10,8 +5,8 @@ import org.iskandarframework.iskandar.base.IskandarException;
 
 
 /**
- *
- * @author alastair
+ * This is the event dispatcher type.  The default concrete class for this is
+ * EventDispatcher class.  
  */
 public interface IEventDispatcher {
 
