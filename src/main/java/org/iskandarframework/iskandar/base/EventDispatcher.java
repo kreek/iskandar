@@ -9,7 +9,7 @@ import java.util.Set;
 
 
 /**
- *  This class handles the adding and removing of event listeners and the
+ * This class handles the adding and removing of event listeners and the
  * dispatching of events.  It along with CommandMap are the heart and soul of
  * Iskandar
  * 

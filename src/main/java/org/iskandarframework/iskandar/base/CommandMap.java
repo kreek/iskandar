@@ -12,14 +12,13 @@ import org.iskandarframework.iskandar.core.ICommandFactory;
 
 
 /**
- * This class is the heart of Iskandar.  It is what keeps track of what commands
- * are mapped to what classes
+ * This class is the heart of Iskandar. It is what keeps track of which commands
+ * are mapped to which classes
  */
-
 public class CommandMap implements ICommandMap {
 
     /**
-     * An instance of EventDispatcher.  It should be set in this class at some
+     * An instance of EventDispatcher. It should be set in this class at some
      * point after instantiation
      */
     protected IEventDispatcher _eventDispatcher;
@@ -32,6 +31,7 @@ public class CommandMap implements ICommandMap {
     /**
      * The setter method that sets the EventDispatcher of this CommandMap.  The
      * EventDispatcher is the handler of all events being dispatchedi in the app
+     * 
      * @param IEventDispatcher eventDispatcher
      */
     @Override
@@ -54,12 +54,12 @@ public class CommandMap implements ICommandMap {
     /**
      * This method maps an event string to a command class.  It instantiates the
      * class through reflection.  If using Guice or Spring use the overloaded
-     * method that takes a factory instead
+     * method that takes a factory instead.
+     *
      * @param String eventType
      * @param Class commandClass
      * @throws IskandarException
      */
-
     @Override
     public void mapCommand(String eventType, Class commandClass) throws IskandarException {
 
@@ -96,7 +96,8 @@ public class CommandMap implements ICommandMap {
     /**
      * This method maps an event string to a command class.  Use this and pass in
      * a factory to the command so that your DI framework can instantiate the
-     * command for Iskandar
+     * command for Iskandar.
+     *
      * @param String eventType
      * @param ICommandFactory commandFactory
      * @throws IskandarException
@@ -122,7 +123,8 @@ public class CommandMap implements ICommandMap {
     }
 
     /**
-     * Remove an event to command mapping
+     * Removes an event from command mapping.
+     *
      * @param String eventType
      * @throws IskandarException
      */
@@ -136,7 +138,8 @@ public class CommandMap implements ICommandMap {
     }
 
     /**
-     * Check to see if an event type has been mapped to a command
+     * Checks to see if an event type has been mapped to a command.
+     *
      * @param String eventType
      * @return boolean
      */
@@ -148,12 +151,12 @@ public class CommandMap implements ICommandMap {
         }
 
         return false;
-
     }
 
 
     /**
      * This method executes the appropriate command for a dispatched event.
+     * 
      * @param IEvent e
      * @param ICommand commandClass
      */
