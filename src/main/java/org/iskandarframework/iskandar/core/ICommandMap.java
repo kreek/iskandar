@@ -2,6 +2,11 @@ package org.iskandarframework.iskandar.core;
 
 import org.iskandarframework.iskandar.base.IskandarException;
 
+
+/**
+ *  This interface is for the concrete CommandMap class.  This class is the
+ *  heart of Iskandar
+ */
 public interface ICommandMap {
 
     void setEventDispatcher(IEventDispatcher eventDispatcher);

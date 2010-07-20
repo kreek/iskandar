@@ -9,16 +9,40 @@ import java.util.HashMap;
 import java.util.Map;
 import org.iskandarframework.iskandar.core.ICommandFactory;
 
+
+
+/**
+ * This class is the heart of Iskandar.  It is what keeps track of what commands
+ * are mapped to what classes
+ */
+
 public class CommandMap implements ICommandMap {
 
+    /**
+     * An instance of EventDispatcher.  It should be set in this class at some
+     * point after instantiation
+     */
     protected IEventDispatcher _eventDispatcher;
+    
+    /**
+     * A hash table mapping events to commands
+     */
     protected Map<String, ICommand> _commandMap = new HashMap();
 
+    /**
+     * The setter method that sets the EventDispatcher of this CommandMap.  The
+     * EventDispatcher is the handler of all events being dispatchedi in the app
+     * @param IEventDispatcher eventDispatcher
+     */
     @Override
     public void setEventDispatcher(IEventDispatcher eventDispatcher) {
         this._eventDispatcher = eventDispatcher;
     }
 
+    /**
+     * The getter for EventDispatcher concreate class
+     * @return IEventDispatcher
+     */
     @Override
     public IEventDispatcher getEventDispatcher() {
         return _eventDispatcher;
@@ -26,6 +50,15 @@ public class CommandMap implements ICommandMap {
 
     public CommandMap() {
     }
+
+    /**
+     * This method maps an event string to a command class.  It instantiates the
+     * class through reflection.  If using Guice or Spring use the overloaded
+     * method that takes a factory instead
+     * @param String eventType
+     * @param Class commandClass
+     * @throws IskandarException
+     */
 
     @Override
     public void mapCommand(String eventType, Class commandClass) throws IskandarException {
@@ -48,6 +81,8 @@ public class CommandMap implements ICommandMap {
 
         }
 
+
+        //handle dispatched events and route them with an anonymous class
         _eventDispatcher.addEventListener(eventType, new IEventListener() {
 
             @Override
@@ -58,6 +93,14 @@ public class CommandMap implements ICommandMap {
 
     }
 
+    /**
+     * This method maps an event string to a command class.  Use this and pass in
+     * a factory to the command so that your DI framework can instantiate the
+     * command for Iskandar
+     * @param String eventType
+     * @param ICommandFactory commandFactory
+     * @throws IskandarException
+     */
     @Override
     public void mapCommand(String eventType, ICommandFactory commandFactory) throws IskandarException {
 
@@ -78,6 +121,11 @@ public class CommandMap implements ICommandMap {
         });
     }
 
+    /**
+     * Remove an event to command mapping
+     * @param String eventType
+     * @throws IskandarException
+     */
     @Override
     public void unmapCommand(String eventType) throws IskandarException {
 
@@ -87,6 +135,11 @@ public class CommandMap implements ICommandMap {
 
     }
 
+    /**
+     * Check to see if an event type has been mapped to a command
+     * @param String eventType
+     * @return boolean
+     */
     @Override
     public boolean hasCommand(String eventType) {
 
@@ -98,6 +151,12 @@ public class CommandMap implements ICommandMap {
 
     }
 
+
+    /**
+     * This method executes the appropriate command for a dispatched event.
+     * @param IEvent e
+     * @param ICommand commandClass
+     */
     protected void routeEventToCommand(IEvent e, ICommand commandClass) {
         commandClass.execute(e);
     }

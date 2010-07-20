@@ -6,6 +6,11 @@ import org.iskandarframework.iskandar.core.ICommandMap;
 import org.iskandarframework.iskandar.core.IEvent;
 import org.iskandarframework.iskandar.core.IEventDispatcher;
 
+/**
+ * This is the wrapper class to the CommandMap and the EventDispatcher.  It
+ * allows for the framework to behave like an API, as in LIGHTWEIGHT
+ *
+ */
 public class Iskandar{
 
     private static Iskandar instance = null;
