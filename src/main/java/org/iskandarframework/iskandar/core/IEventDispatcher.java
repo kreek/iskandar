@@ -5,7 +5,7 @@ import org.iskandarframework.iskandar.base.IskandarException;
 
 /**
  * This is the event dispatcher type.  The default concrete class for this is
- * EventDispatcher class.  
+ * EventDispatcher class.
  */
 public interface IEventDispatcher {
 
@@ -13,5 +13,5 @@ public interface IEventDispatcher {
     void addEventListener(String type, IEventListener e);
     void removeEventListener(String type);
     void dispatchEvent(IEvent e) throws IskandarException;
- 
+
 }
